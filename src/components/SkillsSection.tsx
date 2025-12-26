@@ -1,5 +1,5 @@
-import { useEffect, useState, useRef } from "react";
 import { Award } from "lucide-react";
+import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
 type SkillLevel = "Beginner" | "Intermediate" | "Expert";
 
@@ -15,25 +15,7 @@ const getLevelColor = (level: SkillLevel) => {
 };
 
 const SkillsSection = () => {
-  const [isVisible, setIsVisible] = useState(false);
-  const sectionRef = useRef<HTMLElement>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (sectionRef.current) {
-      observer.observe(sectionRef.current);
-    }
-
-    return () => observer.disconnect();
-  }, []);
+  const { ref: sectionRef, isVisible } = useScrollReveal({ threshold: 0.08 });
 
   const technicalSkills: { name: string; level: SkillLevel }[] = [
     { name: "Microsoft PowerPoint", level: "Expert" },
@@ -67,17 +49,18 @@ const SkillsSection = () => {
       <div className="shape-blob w-64 h-64 bg-accent/10 top-20 -right-32" />
 
       <div className="container relative z-10">
-        <div className={`transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+        {/* Header */}
+        <div className={`transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
           <h2 className="font-heading text-3xl md:text-4xl font-semibold mb-6 text-center text-foreground">
             Keahlian
           </h2>
           
-          <div className="w-12 h-1 bg-primary mx-auto mb-16 rounded-full" />
+          <div className={`w-12 h-1 bg-primary mx-auto mb-16 rounded-full transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 scale-x-100' : 'opacity-0 scale-x-0'}`} />
         </div>
 
         <div className="grid lg:grid-cols-3 gap-12 lg:gap-8 max-w-5xl mx-auto">
           {/* Technical Skills */}
-          <div className={`transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <div className={`transition-all duration-700 delay-150 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <h3 className="font-heading text-xl font-semibold mb-8 text-foreground text-center lg:text-left">
               Technical Skills
             </h3>
@@ -85,8 +68,10 @@ const SkillsSection = () => {
               {technicalSkills.map((skill, index) => (
                 <div
                   key={skill.name}
-                  className="flex items-center justify-between gap-4 p-4 rounded-xl bg-background hover:shadow-md transition-all"
-                  style={{ transitionDelay: `${index * 50}ms` }}
+                  className={`flex items-center justify-between gap-4 p-4 rounded-xl bg-background hover:shadow-md hover:scale-[1.02] transition-all duration-300 ${
+                    isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 -translate-x-8'
+                  }`}
+                  style={{ transitionDelay: `${200 + index * 80}ms` }}
                 >
                   <span className="text-foreground font-medium">{skill.name}</span>
                   <span className={`px-3 py-1 rounded-full text-xs font-medium ${getLevelColor(skill.level)}`}>
@@ -98,7 +83,7 @@ const SkillsSection = () => {
           </div>
 
           {/* Languages */}
-          <div className={`transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <div className={`transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <h3 className="font-heading text-xl font-semibold mb-8 text-foreground text-center lg:text-left">
               Bahasa
             </h3>
@@ -106,8 +91,10 @@ const SkillsSection = () => {
               {languages.map((lang, index) => (
                 <div
                   key={lang.name}
-                  className="flex items-center justify-between gap-4 p-4 rounded-xl bg-background hover:shadow-md transition-all"
-                  style={{ transitionDelay: `${index * 50}ms` }}
+                  className={`flex items-center justify-between gap-4 p-4 rounded-xl bg-background hover:shadow-md hover:scale-[1.02] transition-all duration-300 ${
+                    isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
+                  }`}
+                  style={{ transitionDelay: `${350 + index * 80}ms` }}
                 >
                   <span className="text-foreground font-medium flex items-center gap-2">
                     <span className="text-lg">{lang.flag}</span>
@@ -122,7 +109,7 @@ const SkillsSection = () => {
           </div>
 
           {/* Certifications */}
-          <div className={`transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}>
+          <div className={`transition-all duration-700 delay-[450ms] ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
             <h3 className="font-heading text-xl font-semibold mb-8 text-foreground flex items-center gap-2 justify-center lg:justify-start">
               <Award className="w-5 h-5 text-primary" />
               Sertifikasi
@@ -131,8 +118,10 @@ const SkillsSection = () => {
               {certifications.map((cert, index) => (
                 <div
                   key={cert.title}
-                  className="p-4 rounded-xl bg-background hover:shadow-md transition-all"
-                  style={{ transitionDelay: `${index * 50}ms` }}
+                  className={`p-4 rounded-xl bg-background hover:shadow-md hover:scale-[1.02] transition-all duration-300 ${
+                    isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-8'
+                  }`}
+                  style={{ transitionDelay: `${500 + index * 80}ms` }}
                 >
                   <p className="font-medium text-foreground">{cert.title}</p>
                   <p className="text-sm text-muted-foreground mt-1">{cert.issuer}</p>
