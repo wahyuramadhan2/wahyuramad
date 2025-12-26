@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Helmet } from "react-helmet-async";
 import Navbar from "@/components/Navbar";
 import HeroSection from "@/components/HeroSection";
@@ -8,8 +9,11 @@ import EducationSection from "@/components/EducationSection";
 import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import BackToTopButton from "@/components/BackToTopButton";
+import LoadingScreen from "@/components/LoadingScreen";
 
 const Index = () => {
+  const [isLoading, setIsLoading] = useState(true);
+
   return (
     <>
       <Helmet>
@@ -25,7 +29,9 @@ const Index = () => {
         <link rel="canonical" href="https://wahyuramadhan2.github.io/wahyuramad/" />
       </Helmet>
 
-      <div className="min-h-screen bg-background">
+      {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
+
+      <div className={`min-h-screen bg-background ${isLoading ? "overflow-hidden" : ""}`}>
         <Navbar />
         <main>
           <HeroSection />
