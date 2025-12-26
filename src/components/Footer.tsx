@@ -1,4 +1,4 @@
-import { Linkedin, Mail, ExternalLink } from "lucide-react";
+import { Linkedin, Mail, Facebook } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -23,13 +23,13 @@ const Footer = () => {
               <Linkedin className="w-5 h-5" />
             </a>
             <a
-              href="https://wahyuramadhan2.github.io/wahyuportfolio/"
+              href="https://www.facebook.com/profile.php?id=100081566457084"
               target="_blank"
               rel="noopener noreferrer"
               className="p-3 rounded-full bg-background text-muted-foreground hover:text-primary transition-colors"
-              aria-label="Portfolio"
+              aria-label="Facebook"
             >
-              <ExternalLink className="w-5 h-5" />
+              <Facebook className="w-5 h-5" />
             </a>
           </div>
           

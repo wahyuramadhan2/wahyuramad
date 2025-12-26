@@ -1,4 +1,4 @@
-import { Mail, Linkedin, ExternalLink, Send } from "lucide-react";
+import { Mail, Linkedin, Facebook, Send } from "lucide-react";
 
 const ContactSection = () => {
   const contactLinks = [
@@ -15,10 +15,10 @@ const ContactSection = () => {
       href: "https://www.linkedin.com/in/mochammad-wahyu-ramadhan"
     },
     {
-      icon: ExternalLink,
-      label: "Portfolio",
-      value: "wahyuramadhan2.github.io",
-      href: "https://wahyuramadhan2.github.io/wahyuportfolio/"
+      icon: Facebook,
+      label: "Facebook",
+      value: "Wahyu Ramadhan",
+      href: "https://www.facebook.com/profile.php?id=100081566457084"
     }
   ];
 
