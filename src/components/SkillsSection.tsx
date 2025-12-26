@@ -1,73 +1,91 @@
-import { Award, Cloud, BarChart, Database, Brain, CheckCircle } from "lucide-react";
+import { Award } from "lucide-react";
+
+type SkillLevel = "Beginner" | "Intermediate" | "Expert";
+
+const getLevelColor = (level: SkillLevel) => {
+  switch (level) {
+    case "Expert":
+      return "bg-primary text-primary-foreground";
+    case "Intermediate":
+      return "bg-accent text-accent-foreground";
+    case "Beginner":
+      return "bg-secondary text-secondary-foreground";
+  }
+};
 
 const SkillsSection = () => {
-  const skills = [
-    { name: "Microsoft PowerPoint", level: 90 },
-    { name: "Microsoft Word", level: 85 },
-    { name: "SEO", level: 80 },
-    { name: "SQL", level: 75 },
-    { name: "Power BI", level: 70 },
-    { name: "Machine Learning", level: 65 },
+  const technicalSkills: { name: string; level: SkillLevel }[] = [
+    { name: "Microsoft PowerPoint", level: "Expert" },
+    { name: "Microsoft Word", level: "Expert" },
+    { name: "SEO", level: "Intermediate" },
+    { name: "SQL", level: "Intermediate" },
+    { name: "Power BI", level: "Intermediate" },
+    { name: "Machine Learning", level: "Beginner" },
+  ];
+
+  const languages: { name: string; level: SkillLevel; flag: string }[] = [
+    { name: "Bahasa Indonesia", level: "Expert", flag: "🇮🇩" },
+    { name: "English", level: "Intermediate", flag: "🇬🇧" },
+    { name: "Mandarin (中文)", level: "Beginner", flag: "🇨🇳" },
+    { name: "Dutch (Nederlands)", level: "Beginner", flag: "🇳🇱" },
   ];
 
   const certifications = [
-    {
-      icon: Cloud,
-      title: "AWS Cloud Quest",
-      issuer: "Cloud Practitioner"
-    },
-    {
-      icon: BarChart,
-      title: "Power BI for Beginners",
-      issuer: "Microsoft"
-    },
-    {
-      icon: Database,
-      title: "Intermediate SQL",
-      issuer: "DataCamp"
-    },
-    {
-      icon: CheckCircle,
-      title: "Data Analyst Associate",
-      issuer: "DataCamp"
-    },
-    {
-      icon: Brain,
-      title: "Machine Learning Pemula",
-      issuer: "Dicoding"
-    }
+    { title: "AWS Cloud Quest", issuer: "Cloud Practitioner" },
+    { title: "Power BI for Beginners", issuer: "Microsoft" },
+    { title: "Intermediate SQL", issuer: "DataCamp" },
+    { title: "Data Analyst Associate", issuer: "DataCamp" },
+    { title: "Machine Learning Pemula", issuer: "Dicoding" },
   ];
 
   return (
-    <section id="skills" className="section-padding bg-secondary/30">
-      <div className="container px-4 md:px-6">
-        <div className="text-center mb-12">
-          <h2 className="font-heading text-3xl md:text-4xl font-semibold mb-4 text-foreground">
-            Keahlian & Sertifikasi
-          </h2>
-          <div className="w-16 h-1 bg-primary mx-auto rounded-full" />
-        </div>
+    <section id="skills" className="section-padding bg-card">
+      <div className="container">
+        <h2 className="font-heading text-3xl md:text-4xl font-semibold mb-6 text-center text-foreground">
+          Keahlian
+        </h2>
+        
+        <div className="w-12 h-1 bg-primary mx-auto mb-16 rounded-full" />
 
-        <div className="grid lg:grid-cols-2 gap-12 max-w-5xl mx-auto">
-          {/* Skills bars */}
+        <div className="grid lg:grid-cols-3 gap-12 lg:gap-8 max-w-5xl mx-auto">
+          {/* Technical Skills */}
           <div>
-            <h3 className="font-heading text-xl font-semibold mb-6 flex items-center gap-3">
-              <span className="w-2 h-2 bg-primary rounded-full" />
-              Keahlian Utama
+            <h3 className="font-heading text-xl font-semibold mb-8 text-foreground text-center lg:text-left">
+              Technical Skills
             </h3>
-            <div className="space-y-5">
-              {skills.map((skill) => (
-                <div key={skill.name}>
-                  <div className="flex justify-between mb-2">
-                    <span className="text-foreground font-medium text-sm">{skill.name}</span>
-                    <span className="text-primary text-sm">{skill.level}%</span>
-                  </div>
-                  <div className="h-2 bg-secondary rounded-full overflow-hidden">
-                    <div
-                      className="h-full rounded-full bg-primary transition-all duration-1000"
-                      style={{ width: `${skill.level}%` }}
-                    />
-                  </div>
+            <div className="space-y-4">
+              {technicalSkills.map((skill) => (
+                <div
+                  key={skill.name}
+                  className="flex items-center justify-between gap-4 p-4 rounded-xl bg-background"
+                >
+                  <span className="text-foreground font-medium">{skill.name}</span>
+                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${getLevelColor(skill.level)}`}>
+                    {skill.level}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Languages */}
+          <div>
+            <h3 className="font-heading text-xl font-semibold mb-8 text-foreground text-center lg:text-left">
+              Bahasa
+            </h3>
+            <div className="space-y-4">
+              {languages.map((lang) => (
+                <div
+                  key={lang.name}
+                  className="flex items-center justify-between gap-4 p-4 rounded-xl bg-background"
+                >
+                  <span className="text-foreground font-medium flex items-center gap-2">
+                    <span className="text-lg">{lang.flag}</span>
+                    {lang.name}
+                  </span>
+                  <span className={`px-3 py-1 rounded-full text-xs font-medium ${getLevelColor(lang.level)}`}>
+                    {lang.level}
+                  </span>
                 </div>
               ))}
             </div>
@@ -75,23 +93,18 @@ const SkillsSection = () => {
 
           {/* Certifications */}
           <div>
-            <h3 className="font-heading text-xl font-semibold mb-6 flex items-center gap-3">
+            <h3 className="font-heading text-xl font-semibold mb-8 text-foreground flex items-center gap-2 justify-center lg:justify-start">
               <Award className="w-5 h-5 text-primary" />
               Sertifikasi
             </h3>
-            <div className="space-y-3">
+            <div className="space-y-4">
               {certifications.map((cert) => (
                 <div
                   key={cert.title}
-                  className="card-soft p-4 flex items-center gap-4 hover:border-primary/30 transition-all"
+                  className="p-4 rounded-xl bg-background"
                 >
-                  <div className="p-2 rounded-lg bg-primary/10 text-primary">
-                    <cert.icon className="w-5 h-5" />
-                  </div>
-                  <div>
-                    <h4 className="font-medium text-foreground text-sm">{cert.title}</h4>
-                    <p className="text-xs text-muted-foreground">{cert.issuer}</p>
-                  </div>
+                  <p className="font-medium text-foreground">{cert.title}</p>
+                  <p className="text-sm text-muted-foreground mt-1">{cert.issuer}</p>
                 </div>
               ))}
             </div>
