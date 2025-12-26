@@ -53,6 +53,7 @@
   body {
     @apply bg-background text-foreground antialiased;
     font-family: var(--font-body);
+    overflow-x: hidden;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -68,5 +69,36 @@
   .card-soft {
     @apply bg-card rounded-2xl;
     box-shadow: 0 2px 20px -4px hsl(25 15% 18% / 0.06);
+  }
+
+  /* Decorative shapes */
+  .shape-blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  .shape-circle {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid hsl(var(--border));
+    pointer-events: none;
+  }
+
+  .shape-dots {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    background-image: radial-gradient(hsl(var(--primary) / 0.2) 2px, transparent 2px);
+    background-size: 12px 12px;
+    pointer-events: none;
+  }
+}
+
+@layer utilities {
+  .parallax-slow {
+    will-change: transform;
   }
 }
