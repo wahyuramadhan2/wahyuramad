@@ -39,6 +39,36 @@
     --font-heading: 'Playfair Display', serif;
     --font-body: 'Source Sans 3', sans-serif;
   }
+
+  .dark {
+    --background: 25 15% 10%;
+    --foreground: 45 20% 92%;
+
+    --card: 25 15% 14%;
+    --card-foreground: 45 20% 92%;
+
+    --popover: 25 15% 14%;
+    --popover-foreground: 45 20% 92%;
+
+    --primary: 22 55% 55%;
+    --primary-foreground: 25 15% 10%;
+
+    --secondary: 25 12% 20%;
+    --secondary-foreground: 45 20% 88%;
+
+    --muted: 25 12% 22%;
+    --muted-foreground: 45 15% 60%;
+
+    --accent: 175 35% 45%;
+    --accent-foreground: 25 15% 10%;
+
+    --destructive: 0 65% 55%;
+    --destructive-foreground: 45 20% 92%;
+
+    --border: 25 12% 22%;
+    --input: 25 12% 22%;
+    --ring: 22 55% 55%;
+  }
 }
 
 @layer base {
