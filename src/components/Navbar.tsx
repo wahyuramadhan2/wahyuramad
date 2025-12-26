@@ -59,7 +59,7 @@ const Navbar = () => {
                 key={link.href}
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
-                className="text-muted-foreground hover:text-foreground transition-colors text-[15px]"
+                className="text-muted-foreground hover:text-foreground transition-colors text-[15px] link-underline focus-visible:outline-none focus-visible:text-primary"
               >
                 {link.label}
               </a>
@@ -70,7 +70,7 @@ const Navbar = () => {
             <ThemeToggle />
             <a
               href="mailto:wahyuramadhan9090@gmail.com"
-              className="px-6 py-2.5 rounded-full bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 transition-all"
+              className="px-6 py-2.5 rounded-full bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 hover:shadow-lg hover:shadow-primary/25 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.98]"
             >
               Hubungi
             </a>

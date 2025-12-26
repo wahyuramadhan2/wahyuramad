@@ -8,7 +8,7 @@ const Footer = () => {
           <div className="flex items-center gap-6">
             <a
               href="mailto:wahyuramadhan9090@gmail.com"
-              className="p-3 rounded-full bg-background text-muted-foreground hover:text-primary transition-colors"
+              className="social-icon"
               aria-label="Email"
             >
               <Mail className="w-5 h-5" />
@@ -17,7 +17,7 @@ const Footer = () => {
               href="https://www.linkedin.com/in/mochammad-wahyu-ramadhan"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-3 rounded-full bg-background text-muted-foreground hover:text-primary transition-colors"
+              className="social-icon"
               aria-label="LinkedIn"
             >
               <Linkedin className="w-5 h-5" />
@@ -26,7 +26,7 @@ const Footer = () => {
               href="https://www.facebook.com/profile.php?id=100081566457084"
               target="_blank"
               rel="noopener noreferrer"
-              className="p-3 rounded-full bg-background text-muted-foreground hover:text-primary transition-colors"
+              className="social-icon"
               aria-label="Facebook"
             >
               <Facebook className="w-5 h-5" />
