@@ -10,9 +10,17 @@ import ContactSection from "@/components/ContactSection";
 import Footer from "@/components/Footer";
 import BackToTopButton from "@/components/BackToTopButton";
 import LoadingScreen from "@/components/LoadingScreen";
+import PageSkeleton from "@/components/skeletons/PageSkeleton";
 
 const Index = () => {
   const [isLoading, setIsLoading] = useState(true);
+  const [showContent, setShowContent] = useState(false);
+
+  const handleLoadingComplete = () => {
+    setIsLoading(false);
+    // Small delay before showing content for smoother transition
+    setTimeout(() => setShowContent(true), 100);
+  };
 
   return (
     <>
@@ -29,20 +37,26 @@ const Index = () => {
         <link rel="canonical" href="https://wahyuramadhan2.github.io/wahyuramad/" />
       </Helmet>
 
-      {isLoading && <LoadingScreen onComplete={() => setIsLoading(false)} />}
+      {isLoading && <LoadingScreen onComplete={handleLoadingComplete} />}
 
       <div className={`min-h-screen bg-background ${isLoading ? "overflow-hidden" : ""}`}>
-        <Navbar />
-        <main>
-          <HeroSection />
-          <AboutSection />
-          <SkillsSection />
-          <ExperienceSection />
-          <EducationSection />
-          <ContactSection />
-        </main>
-        <Footer />
-        <BackToTopButton />
+        {!showContent ? (
+          <PageSkeleton />
+        ) : (
+          <>
+            <Navbar />
+            <main>
+              <HeroSection />
+              <AboutSection />
+              <SkillsSection />
+              <ExperienceSection />
+              <EducationSection />
+              <ContactSection />
+            </main>
+            <Footer />
+            <BackToTopButton />
+          </>
+        )}
       </div>
     </>
   );
