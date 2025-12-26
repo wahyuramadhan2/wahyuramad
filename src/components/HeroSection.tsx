@@ -79,7 +79,8 @@ const HeroSection = () => {
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-primary/20 z-10" />
                 <img 
                   src={profilePhoto} 
-                  alt="Mochammad Wahyu Ramadhan" 
+                  alt="Mochammad Wahyu Ramadhan"
+                  loading="lazy"
                   className="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-700"
                 />
               </div>
@@ -142,7 +143,7 @@ const HeroSection = () => {
           >
             <a 
               href="mailto:wahyuramadhan9090@gmail.com"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 rounded-full bg-primary text-primary-foreground font-medium hover:opacity-90 hover:scale-105 hover:shadow-lg transition-all duration-300"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 rounded-full bg-primary text-primary-foreground font-medium hover:opacity-90 hover:scale-105 hover:shadow-lg transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.98]"
             >
               <Mail className="w-4 h-4" />
               Hubungi Saya
@@ -151,7 +152,7 @@ const HeroSection = () => {
               href="https://www.linkedin.com/in/mochammad-wahyu-ramadhan"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 rounded-full border-2 border-border bg-card hover:border-primary/50 hover:scale-105 hover:shadow-lg transition-all duration-300 font-medium"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 rounded-full border-2 border-border bg-card hover:border-primary/50 hover:scale-105 hover:shadow-lg transition-all duration-300 font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.98]"
             >
               <Linkedin className="w-4 h-4" />
               LinkedIn
