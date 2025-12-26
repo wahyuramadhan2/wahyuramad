@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 
@@ -16,26 +15,23 @@ const Navbar = () => {
 
   const navLinks = [
     { href: "#about", label: "Tentang" },
-    { href: "#skills", label: "Skills" },
+    { href: "#skills", label: "Keahlian" },
     { href: "#experience", label: "Pengalaman" },
     { href: "#education", label: "Pendidikan" },
     { href: "#contact", label: "Kontak" },
   ];
 
   return (
-    <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
+    <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-background/80 backdrop-blur-xl border-b border-border" : ""
+        isScrolled ? "bg-background/95 backdrop-blur-sm shadow-sm border-b border-border/50" : ""
       }`}
     >
       <div className="container px-4 md:px-6">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
-          <a href="#" className="font-heading font-bold text-xl gradient-text">
-            WR
+          <a href="#" className="font-heading font-semibold text-2xl text-primary">
+            Wahyu R.
           </a>
 
           {/* Desktop nav */}
@@ -51,9 +47,9 @@ const Navbar = () => {
             ))}
             <a
               href="mailto:wahyuramadhan9090@gmail.com"
-              className="px-5 py-2 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 transition-all"
+              className="px-5 py-2.5 rounded-full bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 transition-all"
             >
-              Hubungi
+              Hubungi Saya
             </a>
           </div>
 
@@ -68,11 +64,7 @@ const Navbar = () => {
 
         {/* Mobile menu */}
         {isMobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="md:hidden absolute top-full left-0 right-0 bg-background/95 backdrop-blur-xl border-b border-border"
-          >
+          <div className="md:hidden absolute top-full left-0 right-0 bg-background border-b border-border shadow-lg">
             <div className="container px-4 py-6 space-y-4">
               {navLinks.map((link) => (
                 <a
@@ -86,15 +78,15 @@ const Navbar = () => {
               ))}
               <a
                 href="mailto:wahyuramadhan9090@gmail.com"
-                className="inline-block px-5 py-2 rounded-lg bg-primary text-primary-foreground font-medium mt-2"
+                className="inline-block px-5 py-2.5 rounded-full bg-primary text-primary-foreground font-medium mt-2"
               >
-                Hubungi
+                Hubungi Saya
               </a>
             </div>
-          </motion.div>
+          </div>
         )}
       </div>
-    </motion.nav>
+    </nav>
   );
 };
 
