@@ -22,14 +22,25 @@ const ThemeToggle = () => {
   return (
     <button
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      className="p-2 rounded-full bg-secondary/50 hover:bg-secondary text-foreground transition-all duration-300"
+      className="relative p-2 rounded-full bg-secondary/50 hover:bg-secondary text-foreground overflow-hidden group"
       aria-label="Toggle theme"
     >
-      {theme === "dark" ? (
-        <Sun className="w-5 h-5" />
-      ) : (
-        <Moon className="w-5 h-5" />
-      )}
+      <div className="relative w-5 h-5">
+        <Sun 
+          className={`absolute inset-0 w-5 h-5 transition-all duration-500 ${
+            theme === "dark" 
+              ? "rotate-0 scale-100 opacity-100" 
+              : "rotate-90 scale-0 opacity-0"
+          }`} 
+        />
+        <Moon 
+          className={`absolute inset-0 w-5 h-5 transition-all duration-500 ${
+            theme === "dark" 
+              ? "-rotate-90 scale-0 opacity-0" 
+              : "rotate-0 scale-100 opacity-100"
+          }`} 
+        />
+      </div>
     </button>
   );
 };
