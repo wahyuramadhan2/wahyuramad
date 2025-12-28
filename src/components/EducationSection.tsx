@@ -1,8 +1,17 @@
 import { GraduationCap, BookOpen } from "lucide-react";
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
+import { useEffect, useState } from "react";
+
 const EducationSection = () => {
   const { ref: sectionRef, isVisible } = useScrollReveal({ threshold: 0.15 });
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const education = [
     {
@@ -22,11 +31,24 @@ const EducationSection = () => {
   ];
 
   return (
-    <section id="education" className="section-padding bg-card relative overflow-hidden" ref={sectionRef}>
-      {/* Decorative shapes */}
-      <div className="shape-circle w-56 h-56 -top-28 right-[15%] opacity-20" />
-      <div className="shape-blob w-72 h-72 bg-accent/10 -bottom-36 -left-36" />
-      <div className="shape-dots top-32 right-[8%] opacity-30" />
+    <section id="education" className="section-padding section-alt relative overflow-hidden" ref={sectionRef}>
+      {/* Dramatic parallax decorative shapes */}
+      <div 
+        className="shape-circle w-72 h-72 -top-36 right-[12%]"
+        style={{ transform: `translate(${(scrollY - 1000) * -0.08}px, ${(scrollY - 1000) * 0.1}px) rotate(${(scrollY - 1000) * 0.015}deg)` }}
+      />
+      <div 
+        className="shape-blob w-[400px] h-[400px] bg-accent/15 -bottom-44 -left-44"
+        style={{ transform: `translate(${(scrollY - 1000) * 0.06}px, ${(scrollY - 1000) * -0.08}px)` }}
+      />
+      <div 
+        className="shape-dots top-28 right-[6%] opacity-50"
+        style={{ transform: `translate(${(scrollY - 1000) * -0.04}px, ${(scrollY - 1000) * 0.06}px)` }}
+      />
+      <div 
+        className="shape-glow w-[280px] h-[280px] bg-primary/20 bottom-20 right-[25%]"
+        style={{ transform: `translate(${(scrollY - 1000) * 0.05}px, ${(scrollY - 1000) * -0.04}px)` }}
+      />
 
       <div className="container relative z-10">
         {/* Header */}

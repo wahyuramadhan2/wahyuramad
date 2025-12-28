@@ -34,30 +34,34 @@ const HeroSection = () => {
 
   return (
     <section className="min-h-screen flex items-center pt-20 pb-16 relative overflow-hidden">
-      {/* Decorative shapes with parallax */}
+      {/* Dramatic parallax decorative shapes */}
       <div 
-        className="shape-blob w-72 h-72 bg-primary/20 -top-20 -right-20"
-        style={{ transform: `translateY(${scrollY * 0.1}px)` }}
+        className="shape-blob w-[500px] h-[500px] bg-primary/25 -top-32 -right-32"
+        style={{ transform: `translate(${scrollY * 0.08}px, ${scrollY * 0.15}px) rotate(${scrollY * 0.02}deg)` }}
       />
       <div 
-        className="shape-blob w-96 h-96 bg-accent/15 -bottom-40 -left-40"
-        style={{ transform: `translateY(${scrollY * -0.08}px)` }}
+        className="shape-blob w-[600px] h-[600px] bg-accent/20 -bottom-60 -left-60"
+        style={{ transform: `translate(${scrollY * -0.05}px, ${scrollY * -0.12}px) rotate(${scrollY * -0.015}deg)` }}
       />
       <div 
-        className="shape-circle w-40 h-40 top-32 left-[10%] opacity-40"
-        style={{ transform: `translateY(${scrollY * 0.15}px)` }}
+        className="shape-glow w-[400px] h-[400px] bg-primary/30 top-1/4 right-1/4"
+        style={{ transform: `translate(${scrollY * 0.1}px, ${scrollY * 0.08}px)` }}
       />
       <div 
-        className="shape-circle w-24 h-24 bottom-40 right-[15%] opacity-30"
-        style={{ transform: `translateY(${scrollY * -0.12}px)` }}
+        className="shape-circle w-56 h-56 top-24 left-[8%]"
+        style={{ transform: `translate(${scrollY * 0.12}px, ${scrollY * 0.2}px) scale(${1 + scrollY * 0.0002})` }}
       />
       <div 
-        className="shape-dots top-40 right-[20%] opacity-60"
-        style={{ transform: `translateY(${scrollY * 0.05}px)` }}
+        className="shape-circle w-32 h-32 bottom-32 right-[12%]"
+        style={{ transform: `translate(${scrollY * -0.1}px, ${scrollY * -0.18}px) scale(${1 + scrollY * 0.0003})` }}
       />
       <div 
-        className="shape-dots bottom-32 left-[8%] opacity-40"
-        style={{ transform: `translateY(${scrollY * -0.06}px)` }}
+        className="shape-dots top-32 right-[18%] opacity-70"
+        style={{ transform: `translate(${scrollY * 0.06}px, ${scrollY * 0.1}px)` }}
+      />
+      <div 
+        className="shape-dots bottom-24 left-[6%] opacity-50"
+        style={{ transform: `translate(${scrollY * -0.08}px, ${scrollY * -0.12}px)` }}
       />
 
       <div className="container relative z-10 px-4 sm:px-6">

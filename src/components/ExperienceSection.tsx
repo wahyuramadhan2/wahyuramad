@@ -41,13 +41,23 @@ const ExperienceSection = () => {
 
   return (
     <section id="experience" className="section-padding relative overflow-hidden" ref={sectionRef}>
-      {/* Decorative shapes with parallax */}
+      {/* Dramatic parallax decorative shapes */}
       <div 
-        className="shape-blob w-72 h-72 bg-primary/10 -top-20 -left-36"
-        style={{ transform: `translateY(${(scrollY - 1500) * 0.05}px)` }}
+        className="shape-blob w-[400px] h-[400px] bg-primary/15 -top-28 -left-44"
+        style={{ transform: `translate(${(scrollY - 1500) * 0.1}px, ${(scrollY - 1500) * 0.08}px) rotate(${(scrollY - 1500) * 0.01}deg)` }}
       />
-      <div className="shape-circle w-32 h-32 bottom-20 right-[10%] opacity-25" />
-      <div className="shape-dots bottom-40 left-[5%] opacity-30" />
+      <div 
+        className="shape-circle w-44 h-44 bottom-16 right-[8%]"
+        style={{ transform: `translate(${(scrollY - 1500) * -0.08}px, ${(scrollY - 1500) * -0.12}px) scale(${1 + Math.abs(scrollY - 1500) * 0.0001})` }}
+      />
+      <div 
+        className="shape-dots bottom-32 left-[4%] opacity-50"
+        style={{ transform: `translate(${(scrollY - 1500) * 0.05}px, ${(scrollY - 1500) * 0.1}px)` }}
+      />
+      <div 
+        className="shape-glow w-[350px] h-[350px] bg-accent/15 top-40 right-[15%]"
+        style={{ transform: `translate(${(scrollY - 1500) * -0.04}px, ${(scrollY - 1500) * 0.06}px)` }}
+      />
 
       <div className="container relative z-10">
         {/* Header */}

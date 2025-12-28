@@ -35,13 +35,23 @@ const ContactSection = () => {
 
   return (
     <section id="contact" className="section-padding relative overflow-hidden" ref={sectionRef}>
-      {/* Decorative shapes with parallax */}
+      {/* Dramatic parallax decorative shapes */}
       <div 
-        className="shape-blob w-80 h-80 bg-primary/15 -top-40 -right-40"
-        style={{ transform: `translateY(${(scrollY - 3000) * 0.05}px)` }}
+        className="shape-blob w-[450px] h-[450px] bg-primary/18 -top-48 -right-48"
+        style={{ transform: `translate(${(scrollY - 3000) * -0.08}px, ${(scrollY - 3000) * 0.1}px) rotate(${(scrollY - 3000) * 0.015}deg)` }}
       />
-      <div className="shape-circle w-40 h-40 bottom-20 left-[10%] opacity-20" />
-      <div className="shape-dots top-20 left-[15%] opacity-40" />
+      <div 
+        className="shape-circle w-52 h-52 bottom-16 left-[8%]"
+        style={{ transform: `translate(${(scrollY - 3000) * 0.1}px, ${(scrollY - 3000) * -0.12}px) scale(${1 + Math.abs(scrollY - 3000) * 0.0001})` }}
+      />
+      <div 
+        className="shape-dots top-16 left-[12%] opacity-55"
+        style={{ transform: `translate(${(scrollY - 3000) * 0.05}px, ${(scrollY - 3000) * 0.08}px)` }}
+      />
+      <div 
+        className="shape-glow w-[380px] h-[380px] bg-accent/20 bottom-1/3 right-[18%]"
+        style={{ transform: `translate(${(scrollY - 3000) * -0.06}px, ${(scrollY - 3000) * 0.04}px)` }}
+      />
 
       <div className="container relative z-10">
         {/* Header */}
