@@ -1,13 +1,32 @@
 import { useScrollReveal } from "@/hooks/use-scroll-reveal";
 
+import { useEffect, useState } from "react";
+
 const AboutSection = () => {
   const { ref: sectionRef, isVisible } = useScrollReveal({ threshold: 0.15 });
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <section id="about" className="section-padding relative overflow-hidden" ref={sectionRef}>
-      {/* Decorative elements */}
-      <div className="shape-circle w-64 h-64 -top-32 -left-32 opacity-20" />
-      <div className="shape-blob w-80 h-80 bg-primary/10 -bottom-40 -right-40" />
+      {/* Dramatic parallax decorative elements */}
+      <div 
+        className="shape-circle w-80 h-80 -top-40 -left-40"
+        style={{ transform: `translate(${(scrollY - 400) * 0.08}px, ${(scrollY - 400) * 0.12}px) rotate(${(scrollY - 400) * 0.02}deg)` }}
+      />
+      <div 
+        className="shape-blob w-[450px] h-[450px] bg-primary/15 -bottom-48 -right-48"
+        style={{ transform: `translate(${(scrollY - 400) * -0.06}px, ${(scrollY - 400) * -0.1}px)` }}
+      />
+      <div 
+        className="shape-glow w-[300px] h-[300px] bg-accent/20 top-20 right-[20%]"
+        style={{ transform: `translate(${(scrollY - 400) * 0.05}px, ${(scrollY - 400) * 0.08}px)` }}
+      />
 
       <div className="container relative z-10">
         <div className="max-w-3xl mx-auto">

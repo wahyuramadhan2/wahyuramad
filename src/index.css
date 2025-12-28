@@ -6,68 +6,78 @@
 
 @layer base {
   :root {
-    --background: 45 20% 95%;
-    --foreground: 25 15% 18%;
+    --background: 40 25% 96%;
+    --foreground: 25 20% 15%;
 
-    --card: 45 30% 98%;
-    --card-foreground: 25 15% 18%;
+    --card: 40 30% 99%;
+    --card-foreground: 25 20% 15%;
 
-    --popover: 45 30% 98%;
-    --popover-foreground: 25 15% 18%;
+    --popover: 40 30% 99%;
+    --popover-foreground: 25 20% 15%;
 
-    --primary: 22 55% 52%;
-    --primary-foreground: 45 30% 98%;
+    --primary: 25 70% 50%;
+    --primary-foreground: 40 30% 98%;
 
-    --secondary: 40 20% 90%;
-    --secondary-foreground: 25 15% 25%;
+    --secondary: 35 25% 92%;
+    --secondary-foreground: 25 20% 20%;
 
-    --muted: 40 15% 88%;
-    --muted-foreground: 25 10% 50%;
+    --muted: 35 20% 90%;
+    --muted-foreground: 25 15% 45%;
 
-    --accent: 175 35% 42%;
-    --accent-foreground: 45 30% 98%;
+    --accent: 180 45% 38%;
+    --accent-foreground: 40 30% 98%;
 
-    --destructive: 0 65% 50%;
-    --destructive-foreground: 45 30% 98%;
+    --destructive: 0 70% 50%;
+    --destructive-foreground: 40 30% 98%;
 
-    --border: 40 15% 85%;
-    --input: 40 15% 85%;
-    --ring: 22 55% 52%;
+    --border: 35 20% 88%;
+    --input: 35 20% 88%;
+    --ring: 25 70% 50%;
 
     --radius: 1rem;
 
     --font-heading: 'Playfair Display', serif;
     --font-body: 'Source Sans 3', sans-serif;
+
+    /* Decorative colors */
+    --shape-primary: 25 70% 50%;
+    --shape-accent: 180 45% 38%;
+    --shape-glow: 25 70% 60%;
   }
 
   .dark {
-    --background: 25 15% 10%;
-    --foreground: 45 20% 92%;
+    --background: 220 25% 8%;
+    --foreground: 40 15% 95%;
 
-    --card: 25 15% 14%;
-    --card-foreground: 45 20% 92%;
+    --card: 220 20% 12%;
+    --card-foreground: 40 15% 95%;
 
-    --popover: 25 15% 14%;
-    --popover-foreground: 45 20% 92%;
+    --popover: 220 20% 12%;
+    --popover-foreground: 40 15% 95%;
 
-    --primary: 22 55% 55%;
-    --primary-foreground: 25 15% 10%;
+    --primary: 25 75% 55%;
+    --primary-foreground: 220 25% 8%;
 
-    --secondary: 25 12% 20%;
-    --secondary-foreground: 45 20% 88%;
+    --secondary: 220 15% 18%;
+    --secondary-foreground: 40 15% 90%;
 
-    --muted: 25 12% 22%;
-    --muted-foreground: 45 15% 60%;
+    --muted: 220 15% 20%;
+    --muted-foreground: 40 10% 65%;
 
-    --accent: 175 35% 45%;
-    --accent-foreground: 25 15% 10%;
+    --accent: 180 50% 45%;
+    --accent-foreground: 220 25% 8%;
 
-    --destructive: 0 65% 55%;
-    --destructive-foreground: 45 20% 92%;
+    --destructive: 0 70% 55%;
+    --destructive-foreground: 40 15% 95%;
 
-    --border: 25 12% 22%;
-    --input: 25 12% 22%;
-    --ring: 22 55% 55%;
+    --border: 220 15% 20%;
+    --input: 220 15% 20%;
+    --ring: 25 75% 55%;
+
+    /* Decorative colors - more vibrant in dark mode */
+    --shape-primary: 25 80% 55%;
+    --shape-accent: 180 55% 50%;
+    --shape-glow: 280 60% 60%;
   }
 }
 
@@ -123,29 +133,63 @@
     @apply ring-2 ring-primary ring-offset-2 ring-offset-background;
   }
 
-  /* Decorative shapes */
+  /* Decorative shapes - Enhanced for dramatic parallax */
   .shape-blob {
     position: absolute;
     border-radius: 50%;
-    filter: blur(60px);
-    opacity: 0.4;
+    filter: blur(80px);
+    opacity: 0.5;
     pointer-events: none;
+    will-change: transform;
+    transition: transform 0.1s linear;
+  }
+
+  .dark .shape-blob {
+    filter: blur(100px);
+    opacity: 0.35;
   }
 
   .shape-circle {
     position: absolute;
     border-radius: 50%;
-    border: 1px solid hsl(var(--border));
+    border: 1.5px solid hsl(var(--shape-primary) / 0.25);
     pointer-events: none;
+    will-change: transform;
+    transition: transform 0.1s linear;
+  }
+
+  .dark .shape-circle {
+    border-color: hsl(var(--shape-accent) / 0.3);
+    box-shadow: 0 0 40px hsl(var(--shape-accent) / 0.1);
   }
 
   .shape-dots {
     position: absolute;
-    width: 100px;
-    height: 100px;
-    background-image: radial-gradient(hsl(var(--primary) / 0.2) 2px, transparent 2px);
-    background-size: 12px 12px;
+    width: 120px;
+    height: 120px;
+    background-image: radial-gradient(hsl(var(--shape-primary) / 0.25) 2px, transparent 2px);
+    background-size: 14px 14px;
     pointer-events: none;
+    will-change: transform;
+    transition: transform 0.1s linear;
+  }
+
+  .dark .shape-dots {
+    background-image: radial-gradient(hsl(var(--shape-accent) / 0.35) 2px, transparent 2px);
+  }
+
+  /* Floating glow effect for dark mode */
+  .shape-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0;
+    pointer-events: none;
+    will-change: transform;
+  }
+
+  .dark .shape-glow {
+    opacity: 0.2;
   }
 
   /* Interactive link with underline animation */
@@ -182,8 +226,22 @@
     will-change: transform;
   }
 
+  .parallax-fast {
+    will-change: transform;
+    transition: transform 0.05s linear;
+  }
+
   /* Focus visible styles for keyboard navigation */
   .focus-ring {
     @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background;
+  }
+
+  /* Enhanced section backgrounds for dark mode */
+  .section-alt {
+    @apply bg-card;
+  }
+
+  .dark .section-alt {
+    background: linear-gradient(180deg, hsl(var(--card)) 0%, hsl(220 20% 10%) 100%);
   }
 }

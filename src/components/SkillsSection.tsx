@@ -14,8 +14,17 @@ const getLevelColor = (level: SkillLevel) => {
   }
 };
 
+import { useEffect, useState } from "react";
+
 const SkillsSection = () => {
   const { ref: sectionRef, isVisible } = useScrollReveal({ threshold: 0.08 });
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const technicalSkills: { name: string; level: SkillLevel }[] = [
     { name: "Microsoft PowerPoint", level: "Expert" },
@@ -43,11 +52,24 @@ const SkillsSection = () => {
   ];
 
   return (
-    <section id="skills" className="section-padding bg-card relative overflow-hidden" ref={sectionRef}>
-      {/* Decorative shapes */}
-      <div className="shape-dots top-20 left-[5%] opacity-40" />
-      <div className="shape-circle w-48 h-48 -bottom-24 right-[10%] opacity-25" />
-      <div className="shape-blob w-64 h-64 bg-accent/10 top-20 -right-32" />
+    <section id="skills" className="section-padding section-alt relative overflow-hidden" ref={sectionRef}>
+      {/* Dramatic parallax decorative shapes */}
+      <div 
+        className="shape-dots top-16 left-[4%] opacity-60"
+        style={{ transform: `translate(${(scrollY - 2200) * 0.06}px, ${(scrollY - 2200) * 0.08}px)` }}
+      />
+      <div 
+        className="shape-circle w-64 h-64 -bottom-32 right-[8%]"
+        style={{ transform: `translate(${(scrollY - 2200) * -0.08}px, ${(scrollY - 2200) * -0.1}px) rotate(${(scrollY - 2200) * 0.02}deg)` }}
+      />
+      <div 
+        className="shape-blob w-[380px] h-[380px] bg-accent/12 top-16 -right-40"
+        style={{ transform: `translate(${(scrollY - 2200) * 0.05}px, ${(scrollY - 2200) * 0.07}px)` }}
+      />
+      <div 
+        className="shape-glow w-[320px] h-[320px] bg-primary/15 bottom-40 left-[20%]"
+        style={{ transform: `translate(${(scrollY - 2200) * -0.04}px, ${(scrollY - 2200) * 0.05}px)` }}
+      />
 
       <div className="container relative z-10">
         {/* Header */}
