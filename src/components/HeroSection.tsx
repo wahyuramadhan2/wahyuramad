@@ -1,20 +1,81 @@
-import { useEffect, useState } from "react";
-import { Mail, Linkedin, ArrowDown, Download } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import { Mail, Linkedin, ArrowDown } from "lucide-react";
 import profilePhoto from "@/assets/profile-photo.jpg";
 
 const HeroSection = () => {
-  const [scrollY, setScrollY] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
 
+  // Parallax refs (avoid React re-render on scroll)
+  const blob1Ref = useRef<HTMLDivElement | null>(null);
+  const blob2Ref = useRef<HTMLDivElement | null>(null);
+  const circleRef = useRef<HTMLDivElement | null>(null);
+
   useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    
+    // Initial load animation trigger
     const timer = setTimeout(() => setIsLoaded(true), 100);
-    
+
+    // Disable parallax if user prefers reduced motion
+    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (media.matches) {
+      return () => clearTimeout(timer);
+    }
+
+    // Optional: disable parallax on small screens for better perf
+    const smallScreen = window.matchMedia("(max-width: 640px)");
+    const shouldDisableOnMobile = smallScreen.matches;
+
+    if (shouldDisableOnMobile) {
+      return () => clearTimeout(timer);
+    }
+
+    let ticking = false;
+
+    const updateParallax = () => {
+      ticking = false;
+      const y = window.scrollY || 0;
+
+      // Tune multipliers for smoother, more subtle movement
+      if (blob1Ref.current) {
+        blob1Ref.current.style.transform = `translate3d(${(y * 0.03).toFixed(2)}px, ${(y * 0.05).toFixed(2)}px, 0)`;
+      }
+      if (blob2Ref.current) {
+        blob2Ref.current.style.transform = `translate3d(${(y * -0.02).toFixed(2)}px, ${(y * -0.04).toFixed(2)}px, 0)`;
+      }
+      if (circleRef.current) {
+        circleRef.current.style.transform = `translate3d(${(y * 0.04).toFixed(2)}px, ${(y * 0.07).toFixed(2)}px, 0)`;
+      }
+    };
+
+    const onScroll = () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(updateParallax);
+      }
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    updateParallax();
+
+    // If reduced-motion preference changes while open
+    const onMotionChange = () => {
+      if (media.matches) {
+        // Reset transforms if user turns on reduced motion
+        if (blob1Ref.current) blob1Ref.current.style.transform = "";
+        if (blob2Ref.current) blob2Ref.current.style.transform = "";
+        if (circleRef.current) circleRef.current.style.transform = "";
+        window.removeEventListener("scroll", onScroll);
+      } else {
+        window.addEventListener("scroll", onScroll, { passive: true });
+        updateParallax();
+      }
+    };
+
+    media.addEventListener?.("change", onMotionChange);
+
     return () => {
-      window.removeEventListener("scroll", handleScroll);
       clearTimeout(timer);
+      window.removeEventListener("scroll", onScroll);
+      media.removeEventListener?.("change", onMotionChange);
     };
   }, []);
 
@@ -25,31 +86,22 @@ const HeroSection = () => {
       const elementPosition = element.getBoundingClientRect().top + window.scrollY;
       window.scrollTo({
         top: elementPosition - navbarHeight,
-        behavior: "smooth"
+        behavior: "smooth",
       });
     }
   };
 
   return (
     <section className="min-h-screen flex items-center pt-20 pb-16 relative overflow-hidden">
-      {/* Subtle decorative elements */}
-      <div 
-        className="shape-blob w-[500px] h-[500px] bg-primary/15 -top-32 -right-32"
-        style={{ transform: `translate(${scrollY * 0.05}px, ${scrollY * 0.08}px)` }}
-      />
-      <div 
-        className="shape-blob w-[400px] h-[400px] bg-accent/10 -bottom-40 -left-40"
-        style={{ transform: `translate(${scrollY * -0.03}px, ${scrollY * -0.06}px)` }}
-      />
-      <div 
-        className="shape-circle w-48 h-48 top-32 left-[10%]"
-        style={{ transform: `translate(${scrollY * 0.06}px, ${scrollY * 0.1}px)` }}
-      />
+      {/* Subtle decorative elements (parallax via refs) */}
+      <div ref={blob1Ref} className="shape-blob w-[500px] h-[500px] bg-primary/15 -top-32 -right-32" />
+      <div ref={blob2Ref} className="shape-blob w-[400px] h-[400px] bg-accent/10 -bottom-40 -left-40" />
+      <div ref={circleRef} className="shape-circle w-48 h-48 top-32 left-[10%]" />
 
       <div className="container relative z-10 px-4 sm:px-6">
         <div className="max-w-3xl mx-auto text-center">
           {/* Profile image */}
-          <div 
+          <div
             className={`mb-8 transition-all duration-700 ${
               isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
@@ -57,8 +109,8 @@ const HeroSection = () => {
             <div className="relative w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 mx-auto group">
               <div className="absolute -inset-1 rounded-full border border-primary/20 group-hover:border-primary/40 transition-colors duration-500" />
               <div className="w-full h-full rounded-full overflow-hidden border-4 border-card shadow-lg relative group-hover:shadow-xl transition-all duration-500">
-                <img 
-                  src={profilePhoto} 
+                <img
+                  src={profilePhoto}
                   alt="Mochammad Wahyu Ramadhan - Psychology Student & Data Enthusiast"
                   loading="eager"
                   className="w-full h-full object-cover object-top"
@@ -68,7 +120,7 @@ const HeroSection = () => {
           </div>
 
           {/* Badge */}
-          <div 
+          <div
             className={`transition-all duration-700 delay-100 ${
               isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             }`}
@@ -77,9 +129,9 @@ const HeroSection = () => {
               Psychology × Data Science
             </span>
           </div>
-          
+
           {/* Name */}
-          <h1 
+          <h1
             className={`font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold mb-4 text-foreground leading-tight transition-all duration-700 delay-200 ${
               isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             }`}
@@ -88,38 +140,39 @@ const HeroSection = () => {
           </h1>
 
           {/* Tagline */}
-          <p 
+          <p
             className={`text-lg sm:text-xl md:text-2xl text-muted-foreground mb-4 transition-all duration-700 delay-300 ${
               isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             }`}
           >
-            Memahami <span className="text-primary font-medium">Perilaku Manusia</span> melalui <span className="text-accent font-medium">Data</span>
+            Memahami <span className="text-primary font-medium">Perilaku Manusia</span> melalui{" "}
+            <span className="text-accent font-medium">Data</span>
           </p>
-          
+
           {/* Description */}
-          <p 
+          <p
             className={`text-base sm:text-lg text-muted-foreground max-w-xl mx-auto mb-8 leading-relaxed px-2 transition-all duration-700 delay-400 ${
               isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             }`}
           >
-            Mahasiswa Psikologi di Universitas Negeri Surabaya dengan fokus pada Psikologi Kognitif, 
-            Machine Learning, dan Data Analytics.
+            Mahasiswa Psikologi di Universitas Negeri Surabaya dengan fokus pada Psikologi Kognitif, Machine Learning,
+            dan Data Analytics.
           </p>
 
           {/* CTA buttons */}
-          <div 
+          <div
             className={`flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center mb-12 transition-all duration-700 delay-500 ${
               isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             }`}
           >
-            <a 
+            <a
               href="mailto:wahyuramadhan9090@gmail.com"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-primary text-primary-foreground font-medium hover:opacity-90 hover:shadow-lg transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
             >
               <Mail className="w-4 h-4" />
               Hubungi Saya
             </a>
-            <a 
+            <a
               href="https://www.linkedin.com/in/mochammad-wahyu-ramadhan"
               target="_blank"
               rel="noopener noreferrer"
@@ -131,7 +184,7 @@ const HeroSection = () => {
           </div>
 
           {/* Scroll indicator */}
-          <button 
+          <button
             onClick={scrollToAbout}
             className={`inline-flex flex-col items-center gap-2 text-muted-foreground hover:text-primary transition-colors duration-300 cursor-pointer ${
               isLoaded ? "opacity-100" : "opacity-0"
