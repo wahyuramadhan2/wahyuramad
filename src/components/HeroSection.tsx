@@ -5,77 +5,67 @@ import profilePhoto from "@/assets/profile-photo.jpg";
 const HeroSection = () => {
   const [isLoaded, setIsLoaded] = useState(false);
 
-  // Parallax refs (avoid React re-render on scroll)
   const blob1Ref = useRef<HTMLDivElement | null>(null);
   const blob2Ref = useRef<HTMLDivElement | null>(null);
   const circleRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-    // Initial load animation trigger
     const timer = setTimeout(() => setIsLoaded(true), 100);
 
-    // Disable parallax if user prefers reduced motion
-    const media = window.matchMedia("(prefers-reduced-motion: reduce)");
-    if (media.matches) {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const isSmall = window.matchMedia("(max-width: 640px)");
+
+    // disable parallax on reduced motion OR small screens (optional but recommended)
+    if (reduceMotion.matches || isSmall.matches) {
       return () => clearTimeout(timer);
     }
 
-    // Optional: disable parallax on small screens for better perf
-    const smallScreen = window.matchMedia("(max-width: 640px)");
-    const shouldDisableOnMobile = smallScreen.matches;
+    let rafId = 0;
+    let targetY = window.scrollY || 0;
+    let currentY = targetY;
 
-    if (shouldDisableOnMobile) {
-      return () => clearTimeout(timer);
-    }
+    // smoothing factor (0.08–0.18 biasanya enak)
+    const ease = 0.12;
 
-    let ticking = false;
+    const apply = (el: HTMLDivElement | null, px: number, py: number) => {
+      if (!el) return;
+      el.style.setProperty("--px", `${px}px`);
+      el.style.setProperty("--py", `${py}px`);
+    };
 
-    const updateParallax = () => {
-      ticking = false;
-      const y = window.scrollY || 0;
+    const tick = () => {
+      // smooth scrolling value
+      currentY += (targetY - currentY) * ease;
 
-      // Tune multipliers for smoother, more subtle movement
-      if (blob1Ref.current) {
-        blob1Ref.current.style.transform = `translate3d(${(y * 0.03).toFixed(2)}px, ${(y * 0.05).toFixed(2)}px, 0)`;
-      }
-      if (blob2Ref.current) {
-        blob2Ref.current.style.transform = `translate3d(${(y * -0.02).toFixed(2)}px, ${(y * -0.04).toFixed(2)}px, 0)`;
-      }
-      if (circleRef.current) {
-        circleRef.current.style.transform = `translate3d(${(y * 0.04).toFixed(2)}px, ${(y * 0.07).toFixed(2)}px, 0)`;
+      // multipliers (lebih kecil = lebih subtle)
+      const y = currentY;
+
+      apply(blob1Ref.current, y * 0.03, y * 0.05);
+      apply(blob2Ref.current, y * -0.02, y * -0.04);
+      apply(circleRef.current, y * 0.04, y * 0.07);
+
+      // keep animating while not settled
+      if (Math.abs(targetY - currentY) > 0.1) {
+        rafId = requestAnimationFrame(tick);
+      } else {
+        rafId = 0;
       }
     };
 
     const onScroll = () => {
-      if (!ticking) {
-        ticking = true;
-        requestAnimationFrame(updateParallax);
-      }
+      targetY = window.scrollY || 0;
+      if (!rafId) rafId = requestAnimationFrame(tick);
     };
 
     window.addEventListener("scroll", onScroll, { passive: true });
-    updateParallax();
 
-    // If reduced-motion preference changes while open
-    const onMotionChange = () => {
-      if (media.matches) {
-        // Reset transforms if user turns on reduced motion
-        if (blob1Ref.current) blob1Ref.current.style.transform = "";
-        if (blob2Ref.current) blob2Ref.current.style.transform = "";
-        if (circleRef.current) circleRef.current.style.transform = "";
-        window.removeEventListener("scroll", onScroll);
-      } else {
-        window.addEventListener("scroll", onScroll, { passive: true });
-        updateParallax();
-      }
-    };
-
-    media.addEventListener?.("change", onMotionChange);
+    // init
+    onScroll();
 
     return () => {
       clearTimeout(timer);
       window.removeEventListener("scroll", onScroll);
-      media.removeEventListener?.("change", onMotionChange);
+      if (rafId) cancelAnimationFrame(rafId);
     };
   }, []);
 
@@ -93,10 +83,22 @@ const HeroSection = () => {
 
   return (
     <section className="min-h-screen flex items-center pt-20 pb-16 relative overflow-hidden">
-      {/* Subtle decorative elements (parallax via refs) */}
-      <div ref={blob1Ref} className="shape-blob w-[500px] h-[500px] bg-primary/15 -top-32 -right-32" />
-      <div ref={blob2Ref} className="shape-blob w-[400px] h-[400px] bg-accent/10 -bottom-40 -left-40" />
-      <div ref={circleRef} className="shape-circle w-48 h-48 top-32 left-[10%]" />
+      {/* IMPORTANT: pastikan shape punya absolute + pointer-events-none */}
+      <div
+        ref={blob1Ref}
+        className="shape-blob pointer-events-none absolute w-[500px] h-[500px] bg-primary/15 -top-32 -right-32"
+        aria-hidden="true"
+      />
+      <div
+        ref={blob2Ref}
+        className="shape-blob pointer-events-none absolute w-[400px] h-[400px] bg-accent/10 -bottom-40 -left-40"
+        aria-hidden="true"
+      />
+      <div
+        ref={circleRef}
+        className="shape-circle pointer-events-none absolute w-48 h-48 top-32 left-[10%]"
+        aria-hidden="true"
+      />
 
       <div className="container relative z-10 px-4 sm:px-6">
         <div className="max-w-3xl mx-auto text-center">
