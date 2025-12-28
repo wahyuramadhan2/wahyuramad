@@ -17,7 +17,8 @@ const Navbar = () => {
   const navLinks = [
     { href: "#about", label: "Tentang" },
     { href: "#skills", label: "Keahlian" },
-    { href: "#projects", label: "Proyek" },
+    { href: "#experience", label: "Pengalaman" },
+    { href: "#education", label: "Pendidikan" },
     { href: "#contact", label: "Kontak" },
   ];
 
@@ -43,40 +44,33 @@ const Navbar = () => {
   return (
     <nav
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? "bg-card/95 backdrop-blur-md shadow-sm border-b border-border/50" : ""
+        isScrolled ? "bg-card/95 backdrop-blur-sm shadow-sm" : ""
       }`}
     >
       <div className="container">
         <div className="flex items-center justify-between h-20">
-          <a 
-            href="#" 
-            onClick={(e) => {
-              e.preventDefault();
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
-            className="font-heading font-semibold text-xl text-foreground hover:text-primary transition-colors"
-          >
+          <a href="#" className="font-heading font-semibold text-xl text-foreground">
             Wahyu<span className="text-primary">.</span>
           </a>
 
-          <div className="hidden md:flex items-center gap-8">
+          <div className="hidden md:flex items-center gap-10">
             {navLinks.map((link) => (
               <a
                 key={link.href}
                 href={link.href}
                 onClick={(e) => handleNavClick(e, link.href)}
-                className="text-muted-foreground hover:text-foreground transition-colors text-sm font-medium link-underline focus-visible:outline-none focus-visible:text-primary"
+                className="text-muted-foreground hover:text-foreground transition-colors text-[15px] link-underline focus-visible:outline-none focus-visible:text-primary"
               >
                 {link.label}
               </a>
             ))}
           </div>
 
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-4">
             <ThemeToggle />
             <a
               href="mailto:wahyuramadhan9090@gmail.com"
-              className="px-5 py-2 rounded-full bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 hover:shadow-md transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              className="px-6 py-2.5 rounded-full bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 hover:shadow-lg hover:shadow-primary/25 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.98]"
             >
               Hubungi
             </a>
@@ -86,8 +80,7 @@ const Navbar = () => {
             <ThemeToggle />
             <button
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="p-2 text-foreground hover:text-primary transition-colors"
-              aria-label={isMobileMenuOpen ? "Close menu" : "Open menu"}
+              className="p-2 text-foreground"
             >
               {isMobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -96,25 +89,23 @@ const Navbar = () => {
 
         {isMobileMenuOpen && (
           <div className="md:hidden absolute top-full left-0 right-0 bg-card border-b border-border shadow-lg">
-            <div className="container py-4 space-y-1">
+            <div className="container py-6 space-y-4">
               {navLinks.map((link) => (
                 <a
                   key={link.href}
                   href={link.href}
                   onClick={(e) => handleNavClick(e, link.href)}
-                  className="block text-muted-foreground hover:text-foreground hover:bg-muted/50 transition-colors py-3 px-4 rounded-lg text-sm font-medium"
+                  className="block text-muted-foreground hover:text-foreground transition-colors py-2"
                 >
                   {link.label}
                 </a>
               ))}
-              <div className="pt-3 px-4">
-                <a
-                  href="mailto:wahyuramadhan9090@gmail.com"
-                  className="inline-block px-5 py-2 rounded-full bg-primary text-primary-foreground text-sm font-medium"
-                >
-                  Hubungi
-                </a>
-              </div>
+              <a
+                href="mailto:wahyuramadhan9090@gmail.com"
+                className="inline-block px-6 py-2.5 rounded-full bg-primary text-primary-foreground font-medium mt-2"
+              >
+                Hubungi
+              </a>
             </div>
           </div>
         )}

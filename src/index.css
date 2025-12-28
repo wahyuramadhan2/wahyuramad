@@ -6,76 +6,78 @@
 
 @layer base {
   :root {
-    --background: 45 20% 97%;
-    --foreground: 220 15% 18%;
+    --background: 40 25% 96%;
+    --foreground: 25 20% 15%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 220 15% 18%;
+    --card: 40 30% 99%;
+    --card-foreground: 25 20% 15%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 220 15% 18%;
+    --popover: 40 30% 99%;
+    --popover-foreground: 25 20% 15%;
 
-    --primary: 24 75% 50%;
-    --primary-foreground: 0 0% 100%;
+    --primary: 25 70% 50%;
+    --primary-foreground: 40 30% 98%;
 
-    --secondary: 220 10% 94%;
-    --secondary-foreground: 220 15% 25%;
+    --secondary: 35 25% 92%;
+    --secondary-foreground: 25 20% 20%;
 
-    --muted: 220 10% 92%;
-    --muted-foreground: 220 10% 45%;
+    --muted: 35 20% 90%;
+    --muted-foreground: 25 15% 45%;
 
-    --accent: 175 50% 40%;
-    --accent-foreground: 0 0% 100%;
+    --accent: 180 45% 38%;
+    --accent-foreground: 40 30% 98%;
 
     --destructive: 0 70% 50%;
-    --destructive-foreground: 0 0% 100%;
+    --destructive-foreground: 40 30% 98%;
 
-    --border: 220 10% 90%;
-    --input: 220 10% 90%;
-    --ring: 24 75% 50%;
+    --border: 35 20% 88%;
+    --input: 35 20% 88%;
+    --ring: 25 70% 50%;
 
-    --radius: 0.75rem;
+    --radius: 1rem;
 
     --font-heading: 'Playfair Display', serif;
     --font-body: 'Source Sans 3', sans-serif;
 
     /* Decorative colors */
-    --shape-primary: 24 75% 50%;
-    --shape-accent: 175 50% 40%;
+    --shape-primary: 25 70% 50%;
+    --shape-accent: 180 45% 38%;
+    --shape-glow: 25 70% 60%;
   }
 
   .dark {
-    --background: 220 20% 10%;
-    --foreground: 220 10% 95%;
+    --background: 220 25% 8%;
+    --foreground: 40 15% 95%;
 
-    --card: 220 18% 13%;
-    --card-foreground: 220 10% 95%;
+    --card: 220 20% 12%;
+    --card-foreground: 40 15% 95%;
 
-    --popover: 220 18% 13%;
-    --popover-foreground: 220 10% 95%;
+    --popover: 220 20% 12%;
+    --popover-foreground: 40 15% 95%;
 
-    --primary: 24 80% 55%;
-    --primary-foreground: 220 20% 10%;
+    --primary: 25 75% 55%;
+    --primary-foreground: 220 25% 8%;
 
     --secondary: 220 15% 18%;
-    --secondary-foreground: 220 10% 85%;
+    --secondary-foreground: 40 15% 90%;
 
     --muted: 220 15% 20%;
-    --muted-foreground: 220 10% 60%;
+    --muted-foreground: 40 10% 65%;
 
-    --accent: 175 55% 45%;
-    --accent-foreground: 220 20% 10%;
+    --accent: 180 50% 45%;
+    --accent-foreground: 220 25% 8%;
 
     --destructive: 0 70% 55%;
-    --destructive-foreground: 220 10% 95%;
+    --destructive-foreground: 40 15% 95%;
 
     --border: 220 15% 20%;
     --input: 220 15% 20%;
-    --ring: 24 80% 55%;
+    --ring: 25 75% 55%;
 
-    /* Decorative colors - dark mode */
-    --shape-primary: 24 80% 55%;
-    --shape-accent: 175 55% 50%;
+    /* Decorative colors - more vibrant in dark mode */
+    --shape-primary: 25 80% 55%;
+    --shape-accent: 180 55% 50%;
+    --shape-glow: 280 60% 60%;
   }
 }
 
@@ -98,7 +100,7 @@
   *,
   *::before,
   *::after {
-    transition: background-color 0.2s ease, border-color 0.2s ease, color 0.1s ease;
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.15s ease, box-shadow 0.3s ease;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -108,37 +110,86 @@
 
 @layer components {
   .section-padding {
-    @apply py-20 md:py-28;
+    @apply py-24 md:py-32;
   }
 
   .card-soft {
-    @apply bg-card rounded-xl;
-    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.05);
+    @apply bg-card rounded-2xl;
+    box-shadow: 0 2px 20px -4px hsl(25 15% 18% / 0.06);
   }
 
-  /* Decorative shapes - subtle version */
+  /* Interactive card with hover effects */
+  .card-interactive {
+    @apply bg-card rounded-2xl transition-all duration-300;
+    box-shadow: 0 2px 20px -4px hsl(25 15% 18% / 0.06);
+  }
+
+  .card-interactive:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px -8px hsl(var(--primary) / 0.15);
+  }
+
+  .card-interactive:focus-within {
+    @apply ring-2 ring-primary ring-offset-2 ring-offset-background;
+  }
+
+  /* Decorative shapes - Enhanced for dramatic parallax */
   .shape-blob {
     position: absolute;
     border-radius: 50%;
-    filter: blur(100px);
-    opacity: 0.4;
+    filter: blur(80px);
+    opacity: 0.5;
     pointer-events: none;
+    will-change: transform;
+    transition: transform 0.1s linear;
   }
 
   .dark .shape-blob {
-    filter: blur(120px);
-    opacity: 0.25;
+    filter: blur(100px);
+    opacity: 0.35;
   }
 
   .shape-circle {
     position: absolute;
     border-radius: 50%;
-    border: 1px solid hsl(var(--shape-primary) / 0.15);
+    border: 1.5px solid hsl(var(--shape-primary) / 0.25);
     pointer-events: none;
+    will-change: transform;
+    transition: transform 0.1s linear;
   }
 
   .dark .shape-circle {
-    border-color: hsl(var(--shape-accent) / 0.2);
+    border-color: hsl(var(--shape-accent) / 0.3);
+    box-shadow: 0 0 40px hsl(var(--shape-accent) / 0.1);
+  }
+
+  .shape-dots {
+    position: absolute;
+    width: 120px;
+    height: 120px;
+    background-image: radial-gradient(hsl(var(--shape-primary) / 0.25) 2px, transparent 2px);
+    background-size: 14px 14px;
+    pointer-events: none;
+    will-change: transform;
+    transition: transform 0.1s linear;
+  }
+
+  .dark .shape-dots {
+    background-image: radial-gradient(hsl(var(--shape-accent) / 0.35) 2px, transparent 2px);
+  }
+
+  /* Floating glow effect for dark mode */
+  .shape-glow {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0;
+    pointer-events: none;
+    will-change: transform;
+  }
+
+  .dark .shape-glow {
+    opacity: 0.2;
   }
 
   /* Interactive link with underline animation */
@@ -157,26 +208,40 @@
 
   /* Social icon hover effect */
   .social-icon {
-    @apply p-2.5 rounded-full bg-background text-muted-foreground transition-all duration-300;
+    @apply p-3 rounded-full bg-background text-muted-foreground transition-all duration-300;
   }
 
   .social-icon:hover {
-    @apply text-primary bg-primary/10;
+    @apply text-primary-foreground bg-primary scale-110;
+    box-shadow: 0 8px 20px -4px hsl(var(--primary) / 0.4);
+  }
+
+  .social-icon:focus-visible {
+    @apply outline-none ring-2 ring-primary ring-offset-2 ring-offset-background;
   }
 }
 
 @layer utilities {
+  .parallax-slow {
+    will-change: transform;
+  }
+
+  .parallax-fast {
+    will-change: transform;
+    transition: transform 0.05s linear;
+  }
+
   /* Focus visible styles for keyboard navigation */
   .focus-ring {
     @apply focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background;
   }
 
-  /* Section background variation */
+  /* Enhanced section backgrounds for dark mode */
   .section-alt {
-    @apply bg-muted/30;
+    @apply bg-card;
   }
 
   .dark .section-alt {
-    @apply bg-card/50;
+    background: linear-gradient(180deg, hsl(var(--card)) 0%, hsl(220 20% 10%) 100%);
   }
 }

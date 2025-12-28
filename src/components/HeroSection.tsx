@@ -1,202 +1,167 @@
-import { useEffect, useRef, useState } from "react";
-import { Mail, Linkedin, ArrowDown } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Mail, Linkedin, MapPin } from "lucide-react";
 import profilePhoto from "@/assets/profile-photo.jpg";
+import { useTypingAnimation } from "@/hooks/use-typing-animation";
 
 const HeroSection = () => {
+  const [scrollY, setScrollY] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
 
-  const blob1Ref = useRef<HTMLDivElement | null>(null);
-  const blob2Ref = useRef<HTMLDivElement | null>(null);
-  const circleRef = useRef<HTMLDivElement | null>(null);
+  const { displayText } = useTypingAnimation({
+    texts: [
+      "Data Science Enthusiast",
+      "Psychology Student",
+      "Machine Learning Explorer",
+      "Cognitive Psychology",
+    ],
+    typingSpeed: 80,
+    deletingSpeed: 40,
+    pauseDuration: 2500,
+  });
 
   useEffect(() => {
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    
+    // Trigger animations after mount
     const timer = setTimeout(() => setIsLoaded(true), 100);
-
-    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const isSmall = window.matchMedia("(max-width: 640px)");
-
-    // disable parallax on reduced motion OR small screens (optional but recommended)
-    if (reduceMotion.matches || isSmall.matches) {
-      return () => clearTimeout(timer);
-    }
-
-    let rafId = 0;
-    let targetY = window.scrollY || 0;
-    let currentY = targetY;
-
-    // smoothing factor (0.08–0.18 biasanya enak)
-    const ease = 0.12;
-
-    const apply = (el: HTMLDivElement | null, px: number, py: number) => {
-      if (!el) return;
-      el.style.setProperty("--px", `${px}px`);
-      el.style.setProperty("--py", `${py}px`);
-    };
-
-    const tick = () => {
-      // smooth scrolling value
-      currentY += (targetY - currentY) * ease;
-
-      // multipliers (lebih kecil = lebih subtle)
-      const y = currentY;
-
-      apply(blob1Ref.current, y * 0.03, y * 0.05);
-      apply(blob2Ref.current, y * -0.02, y * -0.04);
-      apply(circleRef.current, y * 0.04, y * 0.07);
-
-      // keep animating while not settled
-      if (Math.abs(targetY - currentY) > 0.1) {
-        rafId = requestAnimationFrame(tick);
-      } else {
-        rafId = 0;
-      }
-    };
-
-    const onScroll = () => {
-      targetY = window.scrollY || 0;
-      if (!rafId) rafId = requestAnimationFrame(tick);
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
-
-    // init
-    onScroll();
-
+    
     return () => {
+      window.removeEventListener("scroll", handleScroll);
       clearTimeout(timer);
-      window.removeEventListener("scroll", onScroll);
-      if (rafId) cancelAnimationFrame(rafId);
     };
   }, []);
 
-  const scrollToAbout = () => {
-    const element = document.getElementById("about");
-    if (element) {
-      const navbarHeight = 80;
-      const elementPosition = element.getBoundingClientRect().top + window.scrollY;
-      window.scrollTo({
-        top: elementPosition - navbarHeight,
-        behavior: "smooth",
-      });
-    }
-  };
-
   return (
     <section className="min-h-screen flex items-center pt-20 pb-16 relative overflow-hidden">
-      {/* IMPORTANT: pastikan shape punya absolute + pointer-events-none */}
-      <div
-        ref={blob1Ref}
-        className="shape-blob pointer-events-none absolute w-[500px] h-[500px] bg-primary/15 -top-32 -right-32"
-        aria-hidden="true"
+      {/* Dramatic parallax decorative shapes */}
+      <div 
+        className="shape-blob w-[500px] h-[500px] bg-primary/25 -top-32 -right-32"
+        style={{ transform: `translate(${scrollY * 0.08}px, ${scrollY * 0.15}px) rotate(${scrollY * 0.02}deg)` }}
       />
-      <div
-        ref={blob2Ref}
-        className="shape-blob pointer-events-none absolute w-[400px] h-[400px] bg-accent/10 -bottom-40 -left-40"
-        aria-hidden="true"
+      <div 
+        className="shape-blob w-[600px] h-[600px] bg-accent/20 -bottom-60 -left-60"
+        style={{ transform: `translate(${scrollY * -0.05}px, ${scrollY * -0.12}px) rotate(${scrollY * -0.015}deg)` }}
       />
-      <div
-        ref={circleRef}
-        className="shape-circle pointer-events-none absolute w-48 h-48 top-32 left-[10%]"
-        aria-hidden="true"
+      <div 
+        className="shape-glow w-[400px] h-[400px] bg-primary/30 top-1/4 right-1/4"
+        style={{ transform: `translate(${scrollY * 0.1}px, ${scrollY * 0.08}px)` }}
+      />
+      <div 
+        className="shape-circle w-56 h-56 top-24 left-[8%]"
+        style={{ transform: `translate(${scrollY * 0.12}px, ${scrollY * 0.2}px) scale(${1 + scrollY * 0.0002})` }}
+      />
+      <div 
+        className="shape-circle w-32 h-32 bottom-32 right-[12%]"
+        style={{ transform: `translate(${scrollY * -0.1}px, ${scrollY * -0.18}px) scale(${1 + scrollY * 0.0003})` }}
+      />
+      <div 
+        className="shape-dots top-32 right-[18%] opacity-70"
+        style={{ transform: `translate(${scrollY * 0.06}px, ${scrollY * 0.1}px)` }}
+      />
+      <div 
+        className="shape-dots bottom-24 left-[6%] opacity-50"
+        style={{ transform: `translate(${scrollY * -0.08}px, ${scrollY * -0.12}px)` }}
       />
 
       <div className="container relative z-10 px-4 sm:px-6">
-        <div className="max-w-3xl mx-auto text-center">
-          {/* Profile image */}
-          <div
-            className={`mb-8 transition-all duration-700 ${
+        <div className="max-w-4xl mx-auto text-center">
+          {/* Profile image with parallax and animations */}
+          <div 
+            className={`mb-8 sm:mb-10 transition-all duration-700 ${
               isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
+            style={{ transform: `translateY(${scrollY * 0.08}px)` }}
           >
-            <div className="relative w-32 h-32 sm:w-36 sm:h-36 md:w-40 md:h-40 mx-auto group">
-              <div className="absolute -inset-1 rounded-full border border-primary/20 group-hover:border-primary/40 transition-colors duration-500" />
-              <div className="w-full h-full rounded-full overflow-hidden border-4 border-card shadow-lg relative group-hover:shadow-xl transition-all duration-500">
-                <img
-                  src={profilePhoto}
-                  alt="Mochammad Wahyu Ramadhan - Psychology Student & Data Enthusiast"
-                  loading="eager"
-                  className="w-full h-full object-cover object-top"
+            <div className="relative w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-52 lg:h-52 mx-auto group">
+              {/* Animated ring */}
+              <div className="absolute inset-0 rounded-full border-2 border-primary/30 animate-pulse" />
+              <div className="absolute -inset-2 rounded-full border border-accent/20 group-hover:border-accent/40 transition-colors duration-500" />
+              
+              {/* Photo container */}
+              <div className="w-full h-full rounded-full overflow-hidden border-4 border-card shadow-xl relative group-hover:shadow-2xl group-hover:scale-105 transition-all duration-500">
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-primary/20 z-10" />
+                <img 
+                  src={profilePhoto} 
+                  alt="Mochammad Wahyu Ramadhan"
+                  loading="lazy"
+                  className="w-full h-full object-cover object-top group-hover:scale-110 transition-transform duration-700"
                 />
               </div>
             </div>
           </div>
 
-          {/* Badge */}
-          <div
-            className={`transition-all duration-700 delay-100 ${
+          {/* Text content with staggered animations */}
+          <p 
+            className={`text-primary font-medium mb-3 sm:mb-4 text-base sm:text-lg tracking-wide transition-all duration-700 delay-100 ${
               isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             }`}
           >
-            <span className="inline-block px-4 py-1.5 rounded-full bg-primary/10 text-primary text-sm font-medium mb-6">
-              Psychology × Data Science
-            </span>
-          </div>
-
-          {/* Name */}
-          <h1
-            className={`font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold mb-4 text-foreground leading-tight transition-all duration-700 delay-200 ${
+            Halo, saya
+          </p>
+          
+          <h1 
+            className={`font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold mb-4 sm:mb-6 text-foreground leading-tight transition-all duration-700 delay-200 ${
               isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             }`}
           >
             Mochammad Wahyu Ramadhan
           </h1>
 
-          {/* Tagline */}
-          <p
-            className={`text-lg sm:text-xl md:text-2xl text-muted-foreground mb-4 transition-all duration-700 delay-300 ${
+          {/* Typing animation */}
+          <div 
+            className={`h-8 sm:h-10 mb-6 sm:mb-8 transition-all duration-700 delay-300 ${
               isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             }`}
           >
-            Memahami <span className="text-primary font-medium">Perilaku Manusia</span> melalui{" "}
-            <span className="text-accent font-medium">Data</span>
+            <span className="text-lg sm:text-xl md:text-2xl text-accent font-medium">
+              {displayText}
+              <span className="animate-pulse text-primary">|</span>
+            </span>
+          </div>
+          
+          <p 
+            className={`text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8 sm:mb-10 leading-relaxed px-2 transition-all duration-700 delay-400 ${
+              isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
+            }`}
+          >
+            Mahasiswa Psikologi dengan ketertarikan pada Data Science, Teknologi, dan Perilaku Manusia. 
+            Fokus pada Psikologi Kognitif & Psikolinguistik.
           </p>
 
-          {/* Description */}
-          <p
-            className={`text-base sm:text-lg text-muted-foreground max-w-xl mx-auto mb-8 leading-relaxed px-2 transition-all duration-700 delay-400 ${
+          {/* Location */}
+          <p 
+            className={`flex items-center justify-center gap-2 text-sm sm:text-base text-muted-foreground mb-8 sm:mb-10 transition-all duration-700 delay-500 ${
               isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             }`}
           >
-            Mahasiswa Psikologi di Universitas Negeri Surabaya dengan fokus pada Psikologi Kognitif, Machine Learning,
-            dan Data Analytics.
+            <MapPin className="w-4 h-4" />
+            Surabaya, Jawa Timur, Indonesia
           </p>
 
           {/* CTA buttons */}
-          <div
-            className={`flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center mb-12 transition-all duration-700 delay-500 ${
+          <div 
+            className={`flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-center transition-all duration-700 delay-[600ms] ${
               isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             }`}
           >
-            <a
+            <a 
               href="mailto:wahyuramadhan9090@gmail.com"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full bg-primary text-primary-foreground font-medium hover:opacity-90 hover:shadow-lg transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 rounded-full bg-primary text-primary-foreground font-medium hover:opacity-90 hover:scale-105 hover:shadow-lg transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.98]"
             >
               <Mail className="w-4 h-4" />
               Hubungi Saya
             </a>
-            <a
+            <a 
               href="https://www.linkedin.com/in/mochammad-wahyu-ramadhan"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 rounded-full border border-border bg-card hover:border-primary/50 hover:shadow-md transition-all duration-300 font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 rounded-full border-2 border-border bg-card hover:border-primary/50 hover:scale-105 hover:shadow-lg transition-all duration-300 font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.98]"
             >
               <Linkedin className="w-4 h-4" />
               LinkedIn
             </a>
           </div>
-
-          {/* Scroll indicator */}
-          <button
-            onClick={scrollToAbout}
-            className={`inline-flex flex-col items-center gap-2 text-muted-foreground hover:text-primary transition-colors duration-300 cursor-pointer ${
-              isLoaded ? "opacity-100" : "opacity-0"
-            }`}
-            style={{ transitionDelay: "700ms" }}
-            aria-label="Scroll to about section"
-          >
-            <span className="text-sm">Scroll</span>
-            <ArrowDown className="w-4 h-4 animate-bounce" />
-          </button>
         </div>
       </div>
     </section>
