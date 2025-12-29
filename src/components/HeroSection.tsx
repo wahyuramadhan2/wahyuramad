@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Mail, Linkedin, MapPin } from "lucide-react";
+import { Mail, Linkedin, MapPin, ChevronDown } from "lucide-react";
 import profilePhoto from "@/assets/profile-photo.jpg";
 import { useTypingAnimation } from "@/hooks/use-typing-animation";
 
@@ -32,36 +32,46 @@ const HeroSection = () => {
     };
   }, []);
 
+  const scrollToAbout = () => {
+    const aboutSection = document.getElementById("about");
+    if (aboutSection) {
+      aboutSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
+  // Elegant easing for parallax
+  const ease = (value: number, factor: number) => value * factor * 0.5;
+
   return (
     <section className="min-h-screen flex items-center pt-20 pb-16 relative overflow-hidden">
-      {/* Dramatic parallax decorative shapes */}
+      {/* Elegant floating decorative shapes */}
       <div 
-        className="shape-blob w-[500px] h-[500px] bg-primary/25 -top-32 -right-32"
-        style={{ transform: `translate(${scrollY * 0.08}px, ${scrollY * 0.15}px) rotate(${scrollY * 0.02}deg)` }}
+        className="shape-blob w-[450px] h-[450px] bg-primary/20 -top-24 -right-24"
+        style={{ transform: `translate(${ease(scrollY, 0.04)}px, ${ease(scrollY, 0.06)}px)` }}
       />
       <div 
-        className="shape-blob w-[600px] h-[600px] bg-accent/20 -bottom-60 -left-60"
-        style={{ transform: `translate(${scrollY * -0.05}px, ${scrollY * -0.12}px) rotate(${scrollY * -0.015}deg)` }}
+        className="shape-blob w-[500px] h-[500px] bg-accent/15 -bottom-40 -left-40"
+        style={{ transform: `translate(${ease(scrollY, -0.03)}px, ${ease(scrollY, -0.05)}px)` }}
       />
       <div 
-        className="shape-glow w-[400px] h-[400px] bg-primary/30 top-1/4 right-1/4"
-        style={{ transform: `translate(${scrollY * 0.1}px, ${scrollY * 0.08}px)` }}
+        className="shape-glow w-[350px] h-[350px] bg-primary/25 top-1/3 right-1/4"
+        style={{ transform: `translate(${ease(scrollY, 0.05)}px, ${ease(scrollY, 0.04)}px)` }}
       />
       <div 
-        className="shape-circle w-56 h-56 top-24 left-[8%]"
-        style={{ transform: `translate(${scrollY * 0.12}px, ${scrollY * 0.2}px) scale(${1 + scrollY * 0.0002})` }}
+        className="shape-circle w-48 h-48 top-28 left-[10%]"
+        style={{ transform: `translate(${ease(scrollY, 0.06)}px, ${ease(scrollY, 0.08)}px)` }}
       />
       <div 
-        className="shape-circle w-32 h-32 bottom-32 right-[12%]"
-        style={{ transform: `translate(${scrollY * -0.1}px, ${scrollY * -0.18}px) scale(${1 + scrollY * 0.0003})` }}
+        className="shape-circle w-28 h-28 bottom-36 right-[15%]"
+        style={{ transform: `translate(${ease(scrollY, -0.04)}px, ${ease(scrollY, -0.06)}px)` }}
       />
       <div 
-        className="shape-dots top-32 right-[18%] opacity-70"
-        style={{ transform: `translate(${scrollY * 0.06}px, ${scrollY * 0.1}px)` }}
+        className="shape-dots top-36 right-[20%] opacity-60"
+        style={{ transform: `translate(${ease(scrollY, 0.03)}px, ${ease(scrollY, 0.04)}px)` }}
       />
       <div 
-        className="shape-dots bottom-24 left-[6%] opacity-50"
-        style={{ transform: `translate(${scrollY * -0.08}px, ${scrollY * -0.12}px)` }}
+        className="shape-dots bottom-28 left-[8%] opacity-40"
+        style={{ transform: `translate(${ease(scrollY, -0.03)}px, ${ease(scrollY, -0.05)}px)` }}
       />
 
       <div className="container relative z-10 px-4 sm:px-6">
@@ -71,16 +81,16 @@ const HeroSection = () => {
             className={`mb-8 sm:mb-10 transition-all duration-700 ${
               isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
-            style={{ transform: `translateY(${scrollY * 0.08}px)` }}
+            style={{ transform: `translateY(${ease(scrollY, 0.03)}px)` }}
           >
             <div className="relative w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-52 lg:h-52 mx-auto group">
               {/* Animated ring */}
-              <div className="absolute inset-0 rounded-full border-2 border-primary/30 animate-pulse" />
-              <div className="absolute -inset-2 rounded-full border border-accent/20 group-hover:border-accent/40 transition-colors duration-500" />
+              <div className="absolute inset-0 rounded-full border-2 border-primary/20 animate-pulse" />
+              <div className="absolute -inset-3 rounded-full border border-accent/15 group-hover:border-accent/30 transition-colors duration-700" />
               
               {/* Photo container */}
-              <div className="w-full h-full rounded-full overflow-hidden border-4 border-card shadow-xl relative group-hover:shadow-2xl group-hover:scale-105 transition-all duration-500">
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-primary/20 z-10" />
+              <div className="w-full h-full rounded-full overflow-hidden border-4 border-card shadow-xl relative group-hover:shadow-2xl group-hover:scale-105 transition-all duration-700">
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-primary/10 z-10" />
                 <img 
                   src={profilePhoto} 
                   alt="Mochammad Wahyu Ramadhan"
@@ -164,6 +174,18 @@ const HeroSection = () => {
           </div>
         </div>
       </div>
+
+      {/* Scroll indicator */}
+      <button
+        onClick={scrollToAbout}
+        className={`absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-muted-foreground hover:text-primary transition-colors duration-300 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-full p-2 ${
+          isLoaded ? "opacity-100" : "opacity-0"
+        }`}
+        aria-label="Scroll ke bawah"
+      >
+        <span className="text-xs font-medium tracking-wider uppercase">Scroll</span>
+        <ChevronDown className="w-5 h-5 scroll-indicator" />
+      </button>
     </section>
   );
 };
