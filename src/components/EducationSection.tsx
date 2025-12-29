@@ -13,6 +13,8 @@ const EducationSection = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const ease = (val: number, factor: number) => (val - 1000) * factor * 0.3;
+
   const education = [
     {
       institution: "Universitas Negeri Surabaya",
@@ -32,22 +34,22 @@ const EducationSection = () => {
 
   return (
     <section id="education" className="section-padding section-alt relative overflow-hidden" ref={sectionRef}>
-      {/* Dramatic parallax decorative shapes */}
+      {/* Smooth parallax decorative shapes */}
       <div 
-        className="shape-circle w-72 h-72 -top-36 right-[12%]"
-        style={{ transform: `translate(${(scrollY - 1000) * -0.08}px, ${(scrollY - 1000) * 0.1}px) rotate(${(scrollY - 1000) * 0.015}deg)` }}
+        className="shape-circle w-56 h-56 -top-28 right-[15%]"
+        style={{ transform: `translate(${ease(scrollY, -0.03)}px, ${ease(scrollY, 0.035)}px)` }}
       />
       <div 
-        className="shape-blob w-[400px] h-[400px] bg-accent/15 -bottom-44 -left-44"
-        style={{ transform: `translate(${(scrollY - 1000) * 0.06}px, ${(scrollY - 1000) * -0.08}px)` }}
+        className="shape-blob w-[340px] h-[340px] bg-accent/10 -bottom-36 -left-36"
+        style={{ transform: `translate(${ease(scrollY, 0.025)}px, ${ease(scrollY, -0.03)}px)` }}
       />
       <div 
-        className="shape-dots top-28 right-[6%] opacity-50"
-        style={{ transform: `translate(${(scrollY - 1000) * -0.04}px, ${(scrollY - 1000) * 0.06}px)` }}
+        className="shape-dots top-32 right-[8%] opacity-40"
+        style={{ transform: `translate(${ease(scrollY, -0.015)}px, ${ease(scrollY, 0.02)}px)` }}
       />
       <div 
-        className="shape-glow w-[280px] h-[280px] bg-primary/20 bottom-20 right-[25%]"
-        style={{ transform: `translate(${(scrollY - 1000) * 0.05}px, ${(scrollY - 1000) * -0.04}px)` }}
+        className="shape-glow w-[240px] h-[240px] bg-primary/15 bottom-24 right-[28%]"
+        style={{ transform: `translate(${ease(scrollY, 0.02)}px, ${ease(scrollY, -0.015)}px)` }}
       />
 
       <div className="container relative z-10">
