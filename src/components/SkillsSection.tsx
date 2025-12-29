@@ -26,6 +26,8 @@ const SkillsSection = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const ease = (val: number, factor: number) => (val - 2200) * factor * 0.3;
+
   const technicalSkills: { name: string; level: SkillLevel }[] = [
     { name: "Microsoft PowerPoint", level: "Expert" },
     { name: "Microsoft Word", level: "Expert" },
@@ -53,22 +55,22 @@ const SkillsSection = () => {
 
   return (
     <section id="skills" className="section-padding section-alt relative overflow-hidden" ref={sectionRef}>
-      {/* Dramatic parallax decorative shapes */}
+      {/* Smooth parallax decorative shapes */}
       <div 
-        className="shape-dots top-16 left-[4%] opacity-60"
-        style={{ transform: `translate(${(scrollY - 2200) * 0.06}px, ${(scrollY - 2200) * 0.08}px)` }}
+        className="shape-dots top-20 left-[5%] opacity-45"
+        style={{ transform: `translate(${ease(scrollY, 0.025)}px, ${ease(scrollY, 0.03)}px)` }}
       />
       <div 
-        className="shape-circle w-64 h-64 -bottom-32 right-[8%]"
-        style={{ transform: `translate(${(scrollY - 2200) * -0.08}px, ${(scrollY - 2200) * -0.1}px) rotate(${(scrollY - 2200) * 0.02}deg)` }}
+        className="shape-circle w-52 h-52 -bottom-26 right-[10%]"
+        style={{ transform: `translate(${ease(scrollY, -0.03)}px, ${ease(scrollY, -0.035)}px)` }}
       />
       <div 
-        className="shape-blob w-[380px] h-[380px] bg-accent/12 top-16 -right-40"
-        style={{ transform: `translate(${(scrollY - 2200) * 0.05}px, ${(scrollY - 2200) * 0.07}px)` }}
+        className="shape-blob w-[320px] h-[320px] bg-accent/10 top-20 -right-32"
+        style={{ transform: `translate(${ease(scrollY, 0.02)}px, ${ease(scrollY, 0.025)}px)` }}
       />
       <div 
-        className="shape-glow w-[320px] h-[320px] bg-primary/15 bottom-40 left-[20%]"
-        style={{ transform: `translate(${(scrollY - 2200) * -0.04}px, ${(scrollY - 2200) * 0.05}px)` }}
+        className="shape-glow w-[260px] h-[260px] bg-primary/12 bottom-44 left-[22%]"
+        style={{ transform: `translate(${ease(scrollY, -0.015)}px, ${ease(scrollY, 0.02)}px)` }}
       />
 
       <div className="container relative z-10">
