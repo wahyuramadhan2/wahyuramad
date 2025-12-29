@@ -39,35 +39,39 @@ const HeroSection = () => {
     }
   };
 
-  // Smooth easing for parallax
-  const ease = (value: number, factor: number) => value * factor * 0.3;
+  // Elegant easing for parallax
+  const ease = (value: number, factor: number) => value * factor * 0.5;
 
   return (
     <section className="min-h-screen flex items-center pt-20 pb-16 relative overflow-hidden">
       {/* Elegant floating decorative shapes */}
       <div 
-        className="shape-blob w-[400px] h-[400px] bg-primary/15 -top-20 -right-20"
-        style={{ transform: `translate(${ease(scrollY, 0.02)}px, ${ease(scrollY, 0.03)}px)` }}
+        className="shape-blob w-[450px] h-[450px] bg-primary/20 -top-24 -right-24"
+        style={{ transform: `translate(${ease(scrollY, 0.04)}px, ${ease(scrollY, 0.06)}px)` }}
       />
       <div 
-        className="shape-blob w-[450px] h-[450px] bg-accent/12 -bottom-32 -left-32"
-        style={{ transform: `translate(${ease(scrollY, -0.015)}px, ${ease(scrollY, -0.025)}px)` }}
+        className="shape-blob w-[500px] h-[500px] bg-accent/15 -bottom-40 -left-40"
+        style={{ transform: `translate(${ease(scrollY, -0.03)}px, ${ease(scrollY, -0.05)}px)` }}
       />
       <div 
-        className="shape-glow w-[300px] h-[300px] bg-primary/20 top-1/3 right-1/4"
-        style={{ transform: `translate(${ease(scrollY, 0.025)}px, ${ease(scrollY, 0.02)}px)` }}
+        className="shape-glow w-[350px] h-[350px] bg-primary/25 top-1/3 right-1/4"
+        style={{ transform: `translate(${ease(scrollY, 0.05)}px, ${ease(scrollY, 0.04)}px)` }}
       />
       <div 
-        className="shape-circle w-40 h-40 top-32 left-[12%]"
+        className="shape-circle w-48 h-48 top-28 left-[10%]"
+        style={{ transform: `translate(${ease(scrollY, 0.06)}px, ${ease(scrollY, 0.08)}px)` }}
+      />
+      <div 
+        className="shape-circle w-28 h-28 bottom-36 right-[15%]"
+        style={{ transform: `translate(${ease(scrollY, -0.04)}px, ${ease(scrollY, -0.06)}px)` }}
+      />
+      <div 
+        className="shape-dots top-36 right-[20%] opacity-60"
         style={{ transform: `translate(${ease(scrollY, 0.03)}px, ${ease(scrollY, 0.04)}px)` }}
       />
       <div 
-        className="shape-circle w-24 h-24 bottom-40 right-[18%]"
-        style={{ transform: `translate(${ease(scrollY, -0.02)}px, ${ease(scrollY, -0.03)}px)` }}
-      />
-      <div 
-        className="shape-dots top-40 right-[22%] opacity-50"
-        style={{ transform: `translate(${ease(scrollY, 0.015)}px, ${ease(scrollY, 0.02)}px)` }}
+        className="shape-dots bottom-28 left-[8%] opacity-40"
+        style={{ transform: `translate(${ease(scrollY, -0.03)}px, ${ease(scrollY, -0.05)}px)` }}
       />
 
       <div className="container relative z-10 px-4 sm:px-6">
