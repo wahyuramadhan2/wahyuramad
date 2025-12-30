@@ -196,8 +196,6 @@ const HeroSection = () => {
             <a 
               href={CV_PATH}
               download="CV_Mochammad_Wahyu_Ramadhan.pdf"
-              target="_blank"
-              rel="noopener noreferrer"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 rounded-full bg-accent text-accent-foreground font-medium hover:opacity-90 hover:scale-105 hover:shadow-lg transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.98]"
             >
               <Download className="w-4 h-4" />
