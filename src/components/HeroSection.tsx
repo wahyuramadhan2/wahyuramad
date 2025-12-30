@@ -49,39 +49,60 @@ const HeroSection = () => {
     }
   };
 
-  // Elegant easing for parallax
-  const ease = (value: number, factor: number) => value * factor * 0.5;
+  // Smooth easing for parallax
+  const ease = (value: number, factor: number) => {
+    const dampened = value * factor * 0.3;
+    return dampened;
+  };
+
+  // Calculate smooth parallax with mouse-like responsiveness
+  const getParallaxStyle = (xFactor: number, yFactor: number, delay: number = 0) => {
+    const x = ease(scrollY, xFactor);
+    const y = ease(scrollY, yFactor);
+    return {
+      transform: `translate(${x}px, ${y}px)`,
+      transitionDelay: `${delay}ms`
+    };
+  };
 
   return (
     <section className="min-h-screen flex items-center pt-20 pb-16 relative overflow-hidden">
-      {/* Elegant floating decorative shapes */}
+      {/* Elegant floating decorative shapes with continuous animation */}
       <div 
-        className="shape-blob w-[450px] h-[450px] bg-primary/20 -top-24 -right-24"
-        style={{ transform: `translate(${ease(scrollY, 0.04)}px, ${ease(scrollY, 0.06)}px)` }}
+        className="shape-blob w-[500px] h-[500px] bg-primary/30 -top-28 -right-28"
+        style={getParallaxStyle(0.08, 0.12)}
       />
       <div 
-        className="shape-blob w-[500px] h-[500px] bg-accent/15 -bottom-40 -left-40"
-        style={{ transform: `translate(${ease(scrollY, -0.03)}px, ${ease(scrollY, -0.05)}px)` }}
+        className="shape-blob w-[550px] h-[550px] bg-accent/25 -bottom-48 -left-48"
+        style={getParallaxStyle(-0.06, -0.1, 50)}
       />
       <div 
-        className="shape-glow w-[350px] h-[350px] bg-primary/25 top-1/3 right-1/4"
-        style={{ transform: `translate(${ease(scrollY, 0.05)}px, ${ease(scrollY, 0.04)}px)` }}
+        className="shape-glow w-[400px] h-[400px] bg-primary/35 top-1/4 right-1/3"
+        style={getParallaxStyle(0.1, 0.08, 100)}
       />
       <div 
-        className="shape-circle w-48 h-48 top-28 left-[10%]"
-        style={{ transform: `translate(${ease(scrollY, 0.06)}px, ${ease(scrollY, 0.08)}px)` }}
+        className="shape-circle w-56 h-56 top-24 left-[8%]"
+        style={getParallaxStyle(0.12, 0.15, 75)}
       />
       <div 
-        className="shape-circle w-28 h-28 bottom-36 right-[15%]"
-        style={{ transform: `translate(${ease(scrollY, -0.04)}px, ${ease(scrollY, -0.06)}px)` }}
+        className="shape-circle w-32 h-32 bottom-40 right-[12%]"
+        style={getParallaxStyle(-0.08, -0.12, 25)}
       />
       <div 
-        className="shape-dots top-36 right-[20%] opacity-60"
-        style={{ transform: `translate(${ease(scrollY, 0.03)}px, ${ease(scrollY, 0.04)}px)` }}
+        className="shape-circle w-20 h-20 top-1/2 right-[8%]"
+        style={getParallaxStyle(0.15, 0.1, 150)}
       />
       <div 
-        className="shape-dots bottom-28 left-[8%] opacity-40"
-        style={{ transform: `translate(${ease(scrollY, -0.03)}px, ${ease(scrollY, -0.05)}px)` }}
+        className="shape-dots top-32 right-[18%]"
+        style={getParallaxStyle(0.06, 0.08)}
+      />
+      <div 
+        className="shape-dots bottom-24 left-[6%]"
+        style={getParallaxStyle(-0.05, -0.08, 50)}
+      />
+      <div 
+        className="shape-dots top-2/3 left-[20%]"
+        style={getParallaxStyle(0.04, 0.06, 100)}
       />
 
       <div className="container relative z-10 px-4 sm:px-6">
@@ -174,7 +195,9 @@ const HeroSection = () => {
             </a>
             <a 
               href={CV_PATH}
-              download
+              download="CV_Mochammad_Wahyu_Ramadhan.pdf"
+              target="_blank"
+              rel="noopener noreferrer"
               className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 rounded-full bg-accent text-accent-foreground font-medium hover:opacity-90 hover:scale-105 hover:shadow-lg transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.98]"
             >
               <Download className="w-4 h-4" />

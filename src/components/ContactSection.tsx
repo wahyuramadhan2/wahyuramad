@@ -33,24 +33,32 @@ const ContactSection = () => {
     }
   ];
 
+  // Smooth parallax calculation
+  const getParallax = (xFactor: number, yFactor: number, offset: number = 3000) => {
+    const progress = (scrollY - offset) * 0.15;
+    return {
+      transform: `translate(${progress * xFactor}px, ${progress * yFactor}px)`,
+    };
+  };
+
   return (
     <section id="contact" className="section-padding relative overflow-hidden" ref={sectionRef}>
-      {/* Dramatic parallax decorative shapes */}
+      {/* Elegant parallax decorative shapes */}
       <div 
-        className="shape-blob w-[450px] h-[450px] bg-primary/18 -top-48 -right-48"
-        style={{ transform: `translate(${(scrollY - 3000) * -0.08}px, ${(scrollY - 3000) * 0.1}px) rotate(${(scrollY - 3000) * 0.015}deg)` }}
+        className="shape-blob w-[500px] h-[500px] bg-primary/30 -top-52 -right-52"
+        style={getParallax(-0.6, 0.7)}
       />
       <div 
-        className="shape-circle w-52 h-52 bottom-16 left-[8%]"
-        style={{ transform: `translate(${(scrollY - 3000) * 0.1}px, ${(scrollY - 3000) * -0.12}px) scale(${1 + Math.abs(scrollY - 3000) * 0.0001})` }}
+        className="shape-circle w-56 h-56 bottom-20 left-[6%]"
+        style={getParallax(0.7, -0.8)}
       />
       <div 
-        className="shape-dots top-16 left-[12%] opacity-55"
-        style={{ transform: `translate(${(scrollY - 3000) * 0.05}px, ${(scrollY - 3000) * 0.08}px)` }}
+        className="shape-dots top-20 left-[10%]"
+        style={getParallax(0.4, 0.6)}
       />
       <div 
-        className="shape-glow w-[380px] h-[380px] bg-accent/20 bottom-1/3 right-[18%]"
-        style={{ transform: `translate(${(scrollY - 3000) * -0.06}px, ${(scrollY - 3000) * 0.04}px)` }}
+        className="shape-glow w-[400px] h-[400px] bg-accent/30 bottom-1/4 right-[15%]"
+        style={getParallax(-0.5, 0.3)}
       />
 
       <div className="container relative z-10">

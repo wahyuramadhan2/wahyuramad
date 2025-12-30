@@ -51,24 +51,32 @@ const SkillsSection = () => {
     { title: "Machine Learning Pemula", issuer: "Dicoding" },
   ];
 
+  // Smooth parallax calculation
+  const getParallax = (xFactor: number, yFactor: number, offset: number = 2200) => {
+    const progress = (scrollY - offset) * 0.15;
+    return {
+      transform: `translate(${progress * xFactor}px, ${progress * yFactor}px)`,
+    };
+  };
+
   return (
     <section id="skills" className="section-padding section-alt relative overflow-hidden" ref={sectionRef}>
-      {/* Dramatic parallax decorative shapes */}
+      {/* Elegant parallax decorative shapes */}
       <div 
-        className="shape-dots top-16 left-[4%] opacity-60"
-        style={{ transform: `translate(${(scrollY - 2200) * 0.06}px, ${(scrollY - 2200) * 0.08}px)` }}
+        className="shape-dots top-20 left-[3%]"
+        style={getParallax(0.5, 0.6)}
       />
       <div 
-        className="shape-circle w-64 h-64 -bottom-32 right-[8%]"
-        style={{ transform: `translate(${(scrollY - 2200) * -0.08}px, ${(scrollY - 2200) * -0.1}px) rotate(${(scrollY - 2200) * 0.02}deg)` }}
+        className="shape-circle w-56 h-56 -bottom-28 right-[6%]"
+        style={getParallax(-0.6, -0.7)}
       />
       <div 
-        className="shape-blob w-[380px] h-[380px] bg-accent/12 top-16 -right-40"
-        style={{ transform: `translate(${(scrollY - 2200) * 0.05}px, ${(scrollY - 2200) * 0.07}px)` }}
+        className="shape-blob w-[400px] h-[400px] bg-accent/20 top-20 -right-44"
+        style={getParallax(0.4, 0.5)}
       />
       <div 
-        className="shape-glow w-[320px] h-[320px] bg-primary/15 bottom-40 left-[20%]"
-        style={{ transform: `translate(${(scrollY - 2200) * -0.04}px, ${(scrollY - 2200) * 0.05}px)` }}
+        className="shape-glow w-[350px] h-[350px] bg-primary/25 bottom-36 left-[18%]"
+        style={getParallax(-0.3, 0.4)}
       />
 
       <div className="container relative z-10">
