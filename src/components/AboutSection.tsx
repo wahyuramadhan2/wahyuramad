@@ -12,20 +12,32 @@ const AboutSection = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  // Smooth parallax calculation
+  const getParallax = (xFactor: number, yFactor: number, offset: number = 400) => {
+    const progress = (scrollY - offset) * 0.15;
+    return {
+      transform: `translate(${progress * xFactor}px, ${progress * yFactor}px)`,
+    };
+  };
+
   return (
     <section id="about" className="section-padding relative overflow-hidden" ref={sectionRef}>
-      {/* Dramatic parallax decorative elements */}
+      {/* Elegant parallax decorative elements */}
       <div 
-        className="shape-circle w-80 h-80 -top-40 -left-40"
-        style={{ transform: `translate(${(scrollY - 400) * 0.08}px, ${(scrollY - 400) * 0.12}px) rotate(${(scrollY - 400) * 0.02}deg)` }}
+        className="shape-circle w-72 h-72 -top-36 -left-36"
+        style={getParallax(0.6, 0.8)}
       />
       <div 
-        className="shape-blob w-[450px] h-[450px] bg-primary/15 -bottom-48 -right-48"
-        style={{ transform: `translate(${(scrollY - 400) * -0.06}px, ${(scrollY - 400) * -0.1}px)` }}
+        className="shape-blob w-[480px] h-[480px] bg-primary/25 -bottom-52 -right-52"
+        style={getParallax(-0.5, -0.7)}
       />
       <div 
-        className="shape-glow w-[300px] h-[300px] bg-accent/20 top-20 right-[20%]"
-        style={{ transform: `translate(${(scrollY - 400) * 0.05}px, ${(scrollY - 400) * 0.08}px)` }}
+        className="shape-glow w-[320px] h-[320px] bg-accent/30 top-24 right-[18%]"
+        style={getParallax(0.4, 0.5)}
+      />
+      <div 
+        className="shape-dots top-40 right-[8%]"
+        style={getParallax(-0.3, 0.4)}
       />
 
       <div className="container relative z-10">

@@ -30,24 +30,32 @@ const EducationSection = () => {
     }
   ];
 
+  // Smooth parallax calculation
+  const getParallax = (xFactor: number, yFactor: number, offset: number = 1000) => {
+    const progress = (scrollY - offset) * 0.15;
+    return {
+      transform: `translate(${progress * xFactor}px, ${progress * yFactor}px)`,
+    };
+  };
+
   return (
     <section id="education" className="section-padding section-alt relative overflow-hidden" ref={sectionRef}>
-      {/* Dramatic parallax decorative shapes */}
+      {/* Elegant parallax decorative shapes */}
       <div 
-        className="shape-circle w-72 h-72 -top-36 right-[12%]"
-        style={{ transform: `translate(${(scrollY - 1000) * -0.08}px, ${(scrollY - 1000) * 0.1}px) rotate(${(scrollY - 1000) * 0.015}deg)` }}
+        className="shape-circle w-64 h-64 -top-32 right-[10%]"
+        style={getParallax(-0.6, 0.7)}
       />
       <div 
-        className="shape-blob w-[400px] h-[400px] bg-accent/15 -bottom-44 -left-44"
-        style={{ transform: `translate(${(scrollY - 1000) * 0.06}px, ${(scrollY - 1000) * -0.08}px)` }}
+        className="shape-blob w-[420px] h-[420px] bg-accent/25 -bottom-48 -left-48"
+        style={getParallax(0.5, -0.6)}
       />
       <div 
-        className="shape-dots top-28 right-[6%] opacity-50"
-        style={{ transform: `translate(${(scrollY - 1000) * -0.04}px, ${(scrollY - 1000) * 0.06}px)` }}
+        className="shape-dots top-24 right-[5%]"
+        style={getParallax(-0.3, 0.4)}
       />
       <div 
-        className="shape-glow w-[280px] h-[280px] bg-primary/20 bottom-20 right-[25%]"
-        style={{ transform: `translate(${(scrollY - 1000) * 0.05}px, ${(scrollY - 1000) * -0.04}px)` }}
+        className="shape-glow w-[300px] h-[300px] bg-primary/30 bottom-24 right-[22%]"
+        style={getParallax(0.4, -0.3)}
       />
 
       <div className="container relative z-10">
