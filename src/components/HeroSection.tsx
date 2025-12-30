@@ -1,7 +1,17 @@
 import { useEffect, useState } from "react";
-import { Mail, Linkedin, MapPin, ChevronDown } from "lucide-react";
+import { Mail, Linkedin, MapPin, ChevronDown, Download } from "lucide-react";
 import profilePhoto from "@/assets/profile-photo.jpg";
 import { useTypingAnimation } from "@/hooks/use-typing-animation";
+
+// ========================================
+// 📁 CV FILE LOCATION:
+// File: public/cv/CV_Mochammad_Wahyu_Ramadhan.pdf
+// 
+// Untuk mengganti file CV:
+// 1. Ganti file PDF di folder public/cv/
+// 2. Jika nama file berbeda, ubah variabel CV_PATH di bawah ini
+// ========================================
+const CV_PATH = "/cv/CV_Mochammad_Wahyu_Ramadhan.pdf";
 
 const HeroSection = () => {
   const [scrollY, setScrollY] = useState(0);
@@ -161,6 +171,14 @@ const HeroSection = () => {
             >
               <Mail className="w-4 h-4" />
               Hubungi Saya
+            </a>
+            <a 
+              href={CV_PATH}
+              download
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 rounded-full bg-accent text-accent-foreground font-medium hover:opacity-90 hover:scale-105 hover:shadow-lg transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.98]"
+            >
+              <Download className="w-4 h-4" />
+              Download CV
             </a>
             <a 
               href="https://www.linkedin.com/in/mochammad-wahyu-ramadhan"
