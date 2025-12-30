@@ -6,78 +6,78 @@
 
 @layer base {
   :root {
-    --background: 45 30% 97%;
-    --foreground: 220 25% 18%;
+    --background: 220 20% 98%;
+    --foreground: 230 25% 15%;
 
-    --card: 45 35% 99%;
-    --card-foreground: 220 25% 18%;
+    --card: 0 0% 100%;
+    --card-foreground: 230 25% 15%;
 
-    --popover: 45 35% 99%;
-    --popover-foreground: 220 25% 18%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 230 25% 15%;
 
-    --primary: 215 85% 55%;
+    --primary: 245 65% 58%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 45 25% 93%;
-    --secondary-foreground: 220 25% 20%;
+    --secondary: 220 15% 94%;
+    --secondary-foreground: 230 25% 18%;
 
-    --muted: 45 20% 91%;
-    --muted-foreground: 220 15% 45%;
+    --muted: 220 12% 92%;
+    --muted-foreground: 230 10% 45%;
 
-    --accent: 175 65% 42%;
+    --accent: 340 75% 58%;
     --accent-foreground: 0 0% 100%;
 
     --destructive: 0 70% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 45 20% 88%;
-    --input: 45 20% 88%;
-    --ring: 215 85% 55%;
+    --border: 220 15% 90%;
+    --input: 220 15% 90%;
+    --ring: 245 65% 58%;
 
     --radius: 1rem;
 
     --font-heading: 'Playfair Display', serif;
     --font-body: 'Source Sans 3', sans-serif;
 
-    /* Decorative colors - soft and elegant */
-    --shape-primary: 215 85% 55%;
-    --shape-accent: 175 65% 42%;
-    --shape-glow: 260 70% 65%;
+    /* Decorative colors - elegant gradients */
+    --shape-primary: 245 65% 58%;
+    --shape-accent: 340 75% 58%;
+    --shape-glow: 280 60% 65%;
   }
 
   .dark {
-    --background: 225 30% 6%;
-    --foreground: 45 20% 96%;
+    --background: 235 25% 8%;
+    --foreground: 220 20% 95%;
 
-    --card: 225 25% 10%;
-    --card-foreground: 45 20% 96%;
+    --card: 235 22% 12%;
+    --card-foreground: 220 20% 95%;
 
-    --popover: 225 25% 10%;
-    --popover-foreground: 45 20% 96%;
+    --popover: 235 22% 12%;
+    --popover-foreground: 220 20% 95%;
 
-    --primary: 215 90% 60%;
-    --primary-foreground: 225 30% 6%;
+    --primary: 250 75% 68%;
+    --primary-foreground: 235 25% 8%;
 
-    --secondary: 225 20% 15%;
-    --secondary-foreground: 45 15% 92%;
+    --secondary: 235 18% 16%;
+    --secondary-foreground: 220 15% 90%;
 
-    --muted: 225 18% 18%;
-    --muted-foreground: 45 12% 60%;
+    --muted: 235 15% 18%;
+    --muted-foreground: 220 12% 58%;
 
-    --accent: 175 70% 50%;
-    --accent-foreground: 225 30% 6%;
+    --accent: 340 80% 65%;
+    --accent-foreground: 235 25% 8%;
 
     --destructive: 0 70% 55%;
-    --destructive-foreground: 45 20% 96%;
+    --destructive-foreground: 220 20% 95%;
 
-    --border: 225 18% 18%;
-    --input: 225 18% 18%;
-    --ring: 215 90% 60%;
+    --border: 235 15% 20%;
+    --input: 235 15% 20%;
+    --ring: 250 75% 68%;
 
     /* Decorative colors - vibrant glows for dark mode */
-    --shape-primary: 215 90% 60%;
-    --shape-accent: 175 70% 55%;
-    --shape-glow: 280 75% 70%;
+    --shape-primary: 250 75% 68%;
+    --shape-accent: 340 80% 65%;
+    --shape-glow: 290 70% 70%;
   }
 }
 
@@ -260,6 +260,51 @@
   }
 
   .dark .section-alt {
-    background: linear-gradient(180deg, hsl(var(--card)) 0%, hsl(225 28% 8%) 100%);
+    background: linear-gradient(180deg, hsl(var(--card)) 0%, hsl(235 22% 10%) 100%);
+  }
+
+  /* Scroll reveal animation classes */
+  .reveal-fade-up {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal-fade-up.is-visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .reveal-fade-left {
+    opacity: 0;
+    transform: translateX(-40px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal-fade-left.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .reveal-fade-right {
+    opacity: 0;
+    transform: translateX(40px);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal-fade-right.is-visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .reveal-scale {
+    opacity: 0;
+    transform: scale(0.9);
+    transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .reveal-scale.is-visible {
+    opacity: 1;
+    transform: scale(1);
   }
 }
