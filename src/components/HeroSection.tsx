@@ -60,64 +60,70 @@ const HeroSection = () => {
     document.body.removeChild(a);
   };
 
-  // Smooth easing for parallax
-  const ease = (value: number, factor: number) => {
-    const dampened = value * factor * 0.3;
-    return dampened;
+  // Ultra smooth easing with dampening
+  const smoothParallax = (value: number, factor: number) => {
+    // Sine-based easing for organic feel
+    const progress = value * factor * 0.15;
+    return progress * Math.cos(value * 0.0008);
   };
 
-  // Calculate smooth parallax with mouse-like responsiveness
+  // Calculate smooth parallax with depth perception
   const getParallaxStyle = (
     xFactor: number,
     yFactor: number,
-    delay: number = 0
+    rotationFactor: number = 0
   ) => {
-    const x = ease(scrollY, xFactor);
-    const y = ease(scrollY, yFactor);
+    const x = smoothParallax(scrollY, xFactor);
+    const y = smoothParallax(scrollY, yFactor);
+    const rotation = scrollY * rotationFactor * 0.02;
     return {
-      transform: `translate(${x}px, ${y}px)`,
-      transitionDelay: `${delay}ms`,
+      transform: `translate(${x}px, ${y}px) rotate(${rotation}deg)`,
+      transition: 'transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)',
     };
   };
 
   return (
     <section className="min-h-screen flex items-center pt-20 pb-16 relative overflow-hidden">
-      {/* Elegant floating decorative shapes with continuous animation */}
+      {/* Organic morphing shapes with smooth parallax */}
       <div
-        className="shape-blob w-[500px] h-[500px] bg-primary/30 -top-28 -right-28"
-        style={getParallaxStyle(0.08, 0.12)}
+        className="shape-blob w-[450px] h-[450px] bg-primary/35 -top-24 -right-24"
+        style={getParallaxStyle(0.15, 0.2, 0.5)}
       />
       <div
-        className="shape-blob w-[550px] h-[550px] bg-accent/25 -bottom-48 -left-48"
-        style={getParallaxStyle(-0.06, -0.1, 50)}
+        className="shape-blob w-[500px] h-[500px] bg-accent/30 -bottom-40 -left-40"
+        style={getParallaxStyle(-0.12, -0.18, -0.3)}
       />
       <div
-        className="shape-glow w-[400px] h-[400px] bg-primary/35 top-1/4 right-1/3"
-        style={getParallaxStyle(0.1, 0.08, 100)}
+        className="shape-glow w-[350px] h-[350px] bg-primary/40 top-1/3 right-1/4"
+        style={getParallaxStyle(0.2, 0.15, 0.2)}
       />
       <div
-        className="shape-circle w-56 h-56 top-24 left-[8%]"
-        style={getParallaxStyle(0.12, 0.15, 75)}
+        className="shape-glow w-[280px] h-[280px] bg-accent/35 bottom-1/4 left-1/4"
+        style={getParallaxStyle(-0.15, -0.1, -0.15)}
       />
       <div
-        className="shape-circle w-32 h-32 bottom-40 right-[12%]"
-        style={getParallaxStyle(-0.08, -0.12, 25)}
+        className="shape-circle w-48 h-48 top-20 left-[10%]"
+        style={getParallaxStyle(0.25, 0.3, 0.8)}
       />
       <div
-        className="shape-circle w-20 h-20 top-1/2 right-[8%]"
-        style={getParallaxStyle(0.15, 0.1, 150)}
+        className="shape-circle w-36 h-36 bottom-32 right-[15%]"
+        style={getParallaxStyle(-0.18, -0.22, -0.6)}
       />
       <div
-        className="shape-dots top-32 right-[18%]"
-        style={getParallaxStyle(0.06, 0.08)}
+        className="shape-circle w-24 h-24 top-1/2 right-[10%]"
+        style={getParallaxStyle(0.3, 0.2, 1)}
       />
       <div
-        className="shape-dots bottom-24 left-[6%]"
-        style={getParallaxStyle(-0.05, -0.08, 50)}
+        className="shape-circle w-16 h-16 top-1/3 left-[25%]"
+        style={getParallaxStyle(-0.2, 0.25, -0.4)}
       />
       <div
-        className="shape-dots top-2/3 left-[20%]"
-        style={getParallaxStyle(0.04, 0.06, 100)}
+        className="shape-dots top-28 right-[20%]"
+        style={getParallaxStyle(0.12, 0.15, 0.3)}
+      />
+      <div
+        className="shape-dots bottom-20 left-[8%]"
+        style={getParallaxStyle(-0.1, -0.12, -0.2)}
       />
 
       <div className="container relative z-10 px-4 sm:px-6">
@@ -127,7 +133,7 @@ const HeroSection = () => {
             className={`mb-8 sm:mb-10 transition-all duration-700 ${
               isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
-            style={{ transform: `translateY(${ease(scrollY, 0.03)}px)` }}
+            style={{ transform: `translateY(${smoothParallax(scrollY, 0.05)}px)` }}
           >
             <div className="relative w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-52 lg:h-52 mx-auto group">
               <div className="absolute inset-0 rounded-full border-2 border-primary/20 animate-pulse" />

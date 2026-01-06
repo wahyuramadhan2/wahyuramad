@@ -30,32 +30,45 @@ const EducationSection = () => {
     }
   ];
 
-  // Smooth parallax calculation
-  const getParallax = (xFactor: number, yFactor: number, offset: number = 1000) => {
-    const progress = (scrollY - offset) * 0.15;
+  // Ultra smooth parallax with organic feel
+  const smoothParallax = (value: number, factor: number, offset: number = 1000) => {
+    const adjusted = value - offset;
+    const progress = adjusted * factor * 0.12;
+    return progress * Math.cos(adjusted * 0.001);
+  };
+
+  const getParallax = (xFactor: number, yFactor: number, rotationFactor: number = 0, offset: number = 1000) => {
+    const x = smoothParallax(scrollY, xFactor, offset);
+    const y = smoothParallax(scrollY, yFactor, offset);
+    const rotation = (scrollY - offset) * rotationFactor * 0.015;
     return {
-      transform: `translate(${progress * xFactor}px, ${progress * yFactor}px)`,
+      transform: `translate(${x}px, ${y}px) rotate(${rotation}deg)`,
+      transition: 'transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)',
     };
   };
 
   return (
     <section id="education" className="section-padding section-alt relative overflow-hidden" ref={sectionRef}>
-      {/* Elegant parallax decorative shapes */}
+      {/* Organic morphing shapes */}
       <div 
-        className="shape-circle w-64 h-64 -top-32 right-[10%]"
-        style={getParallax(-0.6, 0.7)}
+        className="shape-blob w-[350px] h-[350px] bg-accent/25 -top-28 right-[8%]"
+        style={getParallax(-0.18, 0.22, -0.35)}
       />
       <div 
-        className="shape-blob w-[420px] h-[420px] bg-accent/25 -bottom-48 -left-48"
-        style={getParallax(0.5, -0.6)}
+        className="shape-blob w-[400px] h-[400px] bg-primary/20 -bottom-36 -left-36"
+        style={getParallax(0.2, -0.18, 0.3)}
       />
       <div 
-        className="shape-dots top-24 right-[5%]"
-        style={getParallax(-0.3, 0.4)}
+        className="shape-glow w-[280px] h-[280px] bg-primary/35 bottom-20 right-[20%]"
+        style={getParallax(0.15, -0.12, 0.2)}
       />
       <div 
-        className="shape-glow w-[300px] h-[300px] bg-primary/30 bottom-24 right-[22%]"
-        style={getParallax(0.4, -0.3)}
+        className="shape-circle w-36 h-36 top-1/3 left-[5%]"
+        style={getParallax(-0.2, 0.25, -0.6)}
+      />
+      <div 
+        className="shape-dots top-20 right-[6%]"
+        style={getParallax(-0.1, 0.15, 0.2)}
       />
 
       <div className="container relative z-10">
