@@ -6,43 +6,43 @@
 
 @layer base {
   :root {
-    --background: 45 30% 97%;
-    --foreground: 220 20% 15%;
+    --background: 40 25% 96%;
+    --foreground: 225 20% 18%;
 
-    --card: 45 25% 99%;
-    --card-foreground: 220 20% 15%;
+    --card: 40 20% 99%;
+    --card-foreground: 225 20% 18%;
 
-    --popover: 45 25% 99%;
-    --popover-foreground: 220 20% 15%;
+    --popover: 40 20% 99%;
+    --popover-foreground: 225 20% 18%;
 
-    --primary: 44 100% 50%;
-    --primary-foreground: 220 20% 12%;
+    --primary: 42 75% 45%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 45 30% 92%;
-    --secondary-foreground: 220 15% 25%;
+    --secondary: 40 18% 91%;
+    --secondary-foreground: 225 15% 28%;
 
-    --muted: 45 20% 90%;
-    --muted-foreground: 220 10% 45%;
+    --muted: 40 12% 88%;
+    --muted-foreground: 225 8% 48%;
 
-    --accent: 44 100% 75%;
-    --accent-foreground: 220 20% 12%;
+    --accent: 42 65% 60%;
+    --accent-foreground: 225 20% 15%;
 
-    --destructive: 0 72% 51%;
+    --destructive: 0 65% 50%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 45 20% 85%;
-    --input: 45 20% 85%;
-    --ring: 44 100% 50%;
+    --border: 40 15% 82%;
+    --input: 40 15% 82%;
+    --ring: 42 75% 45%;
 
     --radius: 1rem;
 
     --font-heading: 'Playfair Display', serif;
     --font-body: 'Source Sans 3', sans-serif;
 
-    /* Decorative colors - warm golden tones */
-    --shape-primary: 44 95% 55%;
-    --shape-accent: 44 100% 70%;
-    --shape-glow: 44 90% 60%;
+    /* Decorative colors - soft warm tones for light mode */
+    --shape-primary: 42 55% 55%;
+    --shape-accent: 42 50% 65%;
+    --shape-glow: 42 45% 58%;
   }
 
   .dark {
