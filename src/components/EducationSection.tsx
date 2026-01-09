@@ -30,20 +30,22 @@ const EducationSection = () => {
     }
   ];
 
-  // Ultra smooth parallax with organic feel
+  // Ultra smooth parallax with spring-like easing
   const smoothParallax = (value: number, factor: number, offset: number = 1000) => {
-    const adjusted = value - offset;
-    const progress = adjusted * factor * 0.12;
-    return progress * Math.cos(adjusted * 0.001);
+    const adjusted = Math.max(0, value - offset);
+    const dampening = 0.06;
+    const maxOffset = 35;
+    return Math.tanh(adjusted * dampening * factor) * maxOffset;
   };
 
   const getParallax = (xFactor: number, yFactor: number, rotationFactor: number = 0, offset: number = 1000) => {
     const x = smoothParallax(scrollY, xFactor, offset);
     const y = smoothParallax(scrollY, yFactor, offset);
-    const rotation = (scrollY - offset) * rotationFactor * 0.015;
+    const adjusted = Math.max(0, scrollY - offset);
+    const rotation = Math.tanh(adjusted * 0.002) * rotationFactor * 6;
     return {
-      transform: `translate(${x}px, ${y}px) rotate(${rotation}deg)`,
-      transition: 'transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)',
+      transform: `translate3d(${x}px, ${y}px, 0) rotate(${rotation}deg)`,
+      transition: 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)',
     };
   };
 
@@ -90,8 +92,8 @@ const EducationSection = () => {
               }`}
               style={{ transitionDelay: `${200 + index * 150}ms` }}
             >
-              <div className="p-4 rounded-xl bg-primary/10 text-primary shrink-0 group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-110 transition-all duration-300">
-                <edu.icon className="w-6 h-6" />
+              <div className="p-4 rounded-xl bg-primary/10 shrink-0 group-hover:bg-primary group-hover:scale-110 transition-all duration-300">
+                <edu.icon className="w-6 h-6 text-primary group-hover:text-primary-foreground transition-colors duration-300" />
               </div>
               <div className="flex-1">
                 <div className="flex flex-wrap items-center gap-3 mb-2">
