@@ -60,11 +60,13 @@ const HeroSection = () => {
     document.body.removeChild(a);
   };
 
-  // Ultra smooth easing with dampening
+  // Ultra smooth parallax with spring-like easing
   const smoothParallax = (value: number, factor: number) => {
-    // Sine-based easing for organic feel
-    const progress = value * factor * 0.15;
-    return progress * Math.cos(value * 0.0008);
+    // Smooth dampened movement with spring physics feel
+    const dampening = 0.08;
+    const maxOffset = 40;
+    const progress = Math.tanh(value * dampening * factor) * maxOffset;
+    return progress;
   };
 
   // Calculate smooth parallax with depth perception
@@ -75,10 +77,10 @@ const HeroSection = () => {
   ) => {
     const x = smoothParallax(scrollY, xFactor);
     const y = smoothParallax(scrollY, yFactor);
-    const rotation = scrollY * rotationFactor * 0.02;
+    const rotation = Math.tanh(scrollY * 0.002) * rotationFactor * 8;
     return {
-      transform: `translate(${x}px, ${y}px) rotate(${rotation}deg)`,
-      transition: 'transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)',
+      transform: `translate3d(${x}px, ${y}px, 0) rotate(${rotation}deg)`,
+      transition: 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)',
     };
   };
 
@@ -192,7 +194,7 @@ const HeroSection = () => {
               isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             }`}
           >
-            <MapPin className="w-4 h-4" />
+            <MapPin className="w-4 h-4 text-muted-foreground" />
             Surabaya, Jawa Timur, Indonesia
           </p>
 

@@ -33,20 +33,22 @@ const ContactSection = () => {
     }
   ];
 
-  // Ultra smooth parallax with organic feel
+  // Ultra smooth parallax with spring-like easing
   const smoothParallax = (value: number, factor: number, offset: number = 3000) => {
-    const adjusted = value - offset;
-    const progress = adjusted * factor * 0.12;
-    return progress * Math.cos(adjusted * 0.001);
+    const adjusted = Math.max(0, value - offset);
+    const dampening = 0.06;
+    const maxOffset = 35;
+    return Math.tanh(adjusted * dampening * factor) * maxOffset;
   };
 
   const getParallax = (xFactor: number, yFactor: number, rotationFactor: number = 0, offset: number = 3000) => {
     const x = smoothParallax(scrollY, xFactor, offset);
     const y = smoothParallax(scrollY, yFactor, offset);
-    const rotation = (scrollY - offset) * rotationFactor * 0.015;
+    const adjusted = Math.max(0, scrollY - offset);
+    const rotation = Math.tanh(adjusted * 0.002) * rotationFactor * 6;
     return {
-      transform: `translate(${x}px, ${y}px) rotate(${rotation}deg)`,
-      transition: 'transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)',
+      transform: `translate3d(${x}px, ${y}px, 0) rotate(${rotation}deg)`,
+      transition: 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)',
     };
   };
 
@@ -106,8 +108,8 @@ const ContactSection = () => {
                 }`}
                 style={{ transitionDelay: `${250 + index * 100}ms` }}
               >
-                <div className="w-14 h-14 rounded-full bg-primary/10 text-primary mx-auto mb-5 flex items-center justify-center group-hover:bg-primary group-hover:text-primary-foreground group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
-                  <link.icon className="w-6 h-6" />
+                <div className="w-14 h-14 rounded-full bg-primary/10 mx-auto mb-5 flex items-center justify-center group-hover:bg-primary group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                  <link.icon className="w-6 h-6 text-primary group-hover:text-primary-foreground transition-colors duration-300" />
                 </div>
                 <h3 className="font-heading font-semibold text-foreground mb-2 group-hover:text-primary transition-colors">{link.label}</h3>
                 <p className="text-sm text-muted-foreground break-all">{link.value}</p>

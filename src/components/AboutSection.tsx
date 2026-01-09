@@ -12,20 +12,22 @@ const AboutSection = () => {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Ultra smooth parallax with organic feel
+  // Ultra smooth parallax with spring-like easing
   const smoothParallax = (value: number, factor: number, offset: number = 400) => {
-    const adjusted = value - offset;
-    const progress = adjusted * factor * 0.12;
-    return progress * Math.cos(adjusted * 0.001);
+    const adjusted = Math.max(0, value - offset);
+    const dampening = 0.06;
+    const maxOffset = 35;
+    return Math.tanh(adjusted * dampening * factor) * maxOffset;
   };
 
   const getParallax = (xFactor: number, yFactor: number, rotationFactor: number = 0, offset: number = 400) => {
     const x = smoothParallax(scrollY, xFactor, offset);
     const y = smoothParallax(scrollY, yFactor, offset);
-    const rotation = (scrollY - offset) * rotationFactor * 0.015;
+    const adjusted = Math.max(0, scrollY - offset);
+    const rotation = Math.tanh(adjusted * 0.002) * rotationFactor * 6;
     return {
-      transform: `translate(${x}px, ${y}px) rotate(${rotation}deg)`,
-      transition: 'transform 0.4s cubic-bezier(0.25, 0.1, 0.25, 1)',
+      transform: `translate3d(${x}px, ${y}px, 0) rotate(${rotation}deg)`,
+      transition: 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)',
     };
   };
 
