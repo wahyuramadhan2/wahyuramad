@@ -2,21 +2,18 @@ import { useEffect, useState } from "react";
 import { Mail, Linkedin, MapPin, ChevronDown, Download } from "lucide-react";
 import profilePhoto from "@/assets/profile-photo.jpg";
 import { useTypingAnimation } from "@/hooks/use-typing-animation";
+import { useParallax } from "@/hooks/use-parallax";
 
-// ========================================
-// 📁 CV FILE LOCATION (Vite + GitHub Pages safe):
-// File: public/CV_Mochammad_Wahyu_Ramadhan.pdf
-//
-// Untuk mengganti file CV:
-// 1. Ganti file PDF di folder public/
-// 2. Jika nama file berbeda, ubah CV_FILENAME di bawah ini
-// ========================================
 const CV_FILENAME = "CV_Mochammad_Wahyu_Ramadhan.pdf";
 const CV_PATH = `${import.meta.env.BASE_URL}${CV_FILENAME}`;
 
 const HeroSection = () => {
-  const [scrollY, setScrollY] = useState(0);
   const [isLoaded, setIsLoaded] = useState(false);
+  const { getParallaxStyle, getContentParallax, scrollY } = useParallax({
+    offset: 0,
+    dampening: 0.05,
+    maxOffset: 45,
+  });
 
   const { displayText } = useTypingAnimation({
     texts: [
@@ -31,15 +28,8 @@ const HeroSection = () => {
   });
 
   useEffect(() => {
-    const handleScroll = () => setScrollY(window.scrollY);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-
     const timer = setTimeout(() => setIsLoaded(true), 100);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      clearTimeout(timer);
-    };
+    return () => clearTimeout(timer);
   }, []);
 
   const scrollToAbout = () => {
@@ -49,7 +39,6 @@ const HeroSection = () => {
     }
   };
 
-  // ✅ Force-download via programmatic anchor (prevents .htm / double downloads)
   const handleDownloadCV = () => {
     const a = document.createElement("a");
     a.href = CV_PATH;
@@ -60,89 +49,78 @@ const HeroSection = () => {
     document.body.removeChild(a);
   };
 
-  // Ultra smooth parallax with spring-like easing
-  const smoothParallax = (value: number, factor: number) => {
-    // Smooth dampened movement with spring physics feel
-    const dampening = 0.08;
-    const maxOffset = 40;
-    const progress = Math.tanh(value * dampening * factor) * maxOffset;
-    return progress;
-  };
-
-  // Calculate smooth parallax with depth perception
-  const getParallaxStyle = (
-    xFactor: number,
-    yFactor: number,
-    rotationFactor: number = 0
-  ) => {
-    const x = smoothParallax(scrollY, xFactor);
-    const y = smoothParallax(scrollY, yFactor);
-    const rotation = Math.tanh(scrollY * 0.002) * rotationFactor * 8;
-    return {
-      transform: `translate3d(${x}px, ${y}px, 0) rotate(${rotation}deg)`,
-      transition: 'transform 0.6s cubic-bezier(0.23, 1, 0.32, 1)',
-    };
-  };
+  const heroOpacity = Math.max(0, 1 - scrollY * 0.002);
 
   return (
     <section className="min-h-screen flex items-center pt-20 pb-16 relative overflow-hidden">
+      {/* Background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/50 pointer-events-none" />
+
       {/* Organic morphing shapes with smooth parallax */}
       <div
-        className="shape-blob w-[450px] h-[450px] bg-primary/35 -top-24 -right-24"
-        style={getParallaxStyle(0.15, 0.2, 0.5)}
+        className="shape-blob w-[400px] h-[400px] md:w-[500px] md:h-[500px] bg-primary/30 -top-20 -right-20 md:-top-24 md:-right-24"
+        style={getParallaxStyle(0.18, 0.22, 0.5, 0.3)}
       />
       <div
-        className="shape-blob w-[500px] h-[500px] bg-accent/30 -bottom-40 -left-40"
-        style={getParallaxStyle(-0.12, -0.18, -0.3)}
+        className="shape-blob w-[350px] h-[350px] md:w-[450px] md:h-[450px] bg-accent/25 -bottom-32 -left-32 md:-bottom-40 md:-left-40"
+        style={getParallaxStyle(-0.15, -0.2, -0.4, 0.2)}
       />
       <div
-        className="shape-glow w-[350px] h-[350px] bg-primary/40 top-1/3 right-1/4"
-        style={getParallaxStyle(0.2, 0.15, 0.2)}
+        className="shape-glow w-[250px] h-[250px] md:w-[380px] md:h-[380px] bg-primary/35 top-1/3 right-1/4"
+        style={getParallaxStyle(0.22, 0.18, 0.25, 0.15)}
       />
       <div
-        className="shape-glow w-[280px] h-[280px] bg-accent/35 bottom-1/4 left-1/4"
-        style={getParallaxStyle(-0.15, -0.1, -0.15)}
+        className="shape-glow w-[200px] h-[200px] md:w-[300px] md:h-[300px] bg-accent/30 bottom-1/4 left-1/4"
+        style={getParallaxStyle(-0.18, -0.12, -0.2, 0.1)}
       />
       <div
-        className="shape-circle w-48 h-48 top-20 left-[10%]"
-        style={getParallaxStyle(0.25, 0.3, 0.8)}
+        className="shape-circle w-32 h-32 md:w-52 md:h-52 top-16 md:top-20 left-[8%] md:left-[10%]"
+        style={getParallaxStyle(0.28, 0.32, 0.9, 0.2)}
       />
       <div
-        className="shape-circle w-36 h-36 bottom-32 right-[15%]"
-        style={getParallaxStyle(-0.18, -0.22, -0.6)}
+        className="shape-circle w-24 h-24 md:w-40 md:h-40 bottom-24 md:bottom-32 right-[12%] md:right-[15%]"
+        style={getParallaxStyle(-0.2, -0.25, -0.7, 0.15)}
       />
       <div
-        className="shape-circle w-24 h-24 top-1/2 right-[10%]"
-        style={getParallaxStyle(0.3, 0.2, 1)}
+        className="hidden md:block shape-circle w-28 h-28 top-1/2 right-[8%]"
+        style={getParallaxStyle(0.32, 0.22, 1.1, 0.25)}
       />
       <div
-        className="shape-circle w-16 h-16 top-1/3 left-[25%]"
-        style={getParallaxStyle(-0.2, 0.25, -0.4)}
+        className="hidden lg:block shape-circle w-20 h-20 top-1/3 left-[22%]"
+        style={getParallaxStyle(-0.22, 0.28, -0.5, 0.1)}
       />
       <div
-        className="shape-dots top-28 right-[20%]"
-        style={getParallaxStyle(0.12, 0.15, 0.3)}
+        className="shape-ring w-[300px] h-[300px] md:w-[450px] md:h-[450px] top-1/4 left-1/2 -translate-x-1/2"
+        style={getParallaxStyle(0.08, 0.1, 0.15, 0)}
       />
       <div
-        className="shape-dots bottom-20 left-[8%]"
-        style={getParallaxStyle(-0.1, -0.12, -0.2)}
+        className="hidden md:block shape-dots top-24 right-[18%]"
+        style={getParallaxStyle(0.15, 0.18, 0.35, 0.1)}
+      />
+      <div
+        className="hidden md:block shape-dots bottom-16 left-[6%]"
+        style={getParallaxStyle(-0.12, -0.15, -0.25, 0.05)}
       />
 
-      <div className="container relative z-10 px-4 sm:px-6">
+      <div 
+        className="container relative z-10 px-4 sm:px-6"
+        style={{ opacity: heroOpacity }}
+      >
         <div className="max-w-4xl mx-auto text-center">
           {/* Profile image with parallax and animations */}
           <div
             className={`mb-8 sm:mb-10 transition-all duration-700 ${
               isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
             }`}
-            style={{ transform: `translateY(${smoothParallax(scrollY, 0.05)}px)` }}
+            style={getContentParallax(0.03)}
           >
-            <div className="relative w-32 h-32 sm:w-40 sm:h-40 md:w-48 md:h-48 lg:w-52 lg:h-52 mx-auto group">
-              <div className="absolute inset-0 rounded-full border-2 border-primary/20 animate-pulse" />
-              <div className="absolute -inset-3 rounded-full border border-accent/15 group-hover:border-accent/30 transition-colors duration-700" />
+            <div className="relative w-28 h-28 sm:w-36 sm:h-36 md:w-44 md:h-44 lg:w-52 lg:h-52 mx-auto group">
+              <div className="absolute inset-0 rounded-full border-2 border-primary/25 animate-pulse" />
+              <div className="absolute -inset-3 sm:-inset-4 rounded-full border border-accent/15 group-hover:border-accent/35 transition-colors duration-700" />
+              <div className="absolute -inset-6 sm:-inset-8 rounded-full border border-primary/10 group-hover:border-primary/25 transition-colors duration-700" />
 
-              <div className="w-full h-full rounded-full overflow-hidden border-4 border-card shadow-xl relative group-hover:shadow-2xl group-hover:scale-105 transition-all duration-700">
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-primary/10 z-10" />
+              <div className="w-full h-full rounded-full overflow-hidden border-3 sm:border-4 border-card shadow-xl relative group-hover:shadow-2xl group-hover:shadow-primary/20 group-hover:scale-105 transition-all duration-700">
+                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-primary/15 z-10" />
                 <img
                   src={profilePhoto}
                   alt="Mochammad Wahyu Ramadhan"
@@ -154,7 +132,7 @@ const HeroSection = () => {
           </div>
 
           <p
-            className={`text-primary font-medium mb-3 sm:mb-4 text-base sm:text-lg tracking-wide transition-all duration-700 delay-100 ${
+            className={`text-primary font-medium mb-3 sm:mb-4 text-sm sm:text-base md:text-lg tracking-wide transition-all duration-700 delay-100 ${
               isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             }`}
           >
@@ -162,7 +140,7 @@ const HeroSection = () => {
           </p>
 
           <h1
-            className={`font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold mb-4 sm:mb-6 text-foreground leading-tight transition-all duration-700 delay-200 ${
+            className={`font-heading text-2xl sm:text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-semibold mb-4 sm:mb-6 text-foreground leading-tight transition-all duration-700 delay-200 ${
               isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             }`}
           >
@@ -170,18 +148,18 @@ const HeroSection = () => {
           </h1>
 
           <div
-            className={`h-8 sm:h-10 mb-6 sm:mb-8 transition-all duration-700 delay-300 ${
+            className={`h-7 sm:h-8 md:h-10 mb-5 sm:mb-6 md:mb-8 transition-all duration-700 delay-300 ${
               isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             }`}
           >
-            <span className="text-lg sm:text-xl md:text-2xl text-accent font-medium">
+            <span className="text-base sm:text-lg md:text-xl lg:text-2xl text-accent font-medium">
               {displayText}
-              <span className="animate-pulse text-primary">|</span>
+              <span className="animate-pulse text-primary ml-0.5">|</span>
             </span>
           </div>
 
           <p
-            className={`text-base sm:text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto mb-8 sm:mb-10 leading-relaxed px-2 transition-all duration-700 delay-400 ${
+            className={`text-sm sm:text-base md:text-lg lg:text-xl text-muted-foreground max-w-2xl mx-auto mb-6 sm:mb-8 md:mb-10 leading-relaxed px-2 transition-all duration-700 delay-400 ${
               isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             }`}
           >
@@ -190,12 +168,12 @@ const HeroSection = () => {
           </p>
 
           <p
-            className={`flex items-center justify-center gap-2 text-sm sm:text-base text-muted-foreground mb-8 sm:mb-10 transition-all duration-700 delay-500 ${
+            className={`flex items-center justify-center gap-2 text-xs sm:text-sm md:text-base text-muted-foreground mb-6 sm:mb-8 md:mb-10 transition-all duration-700 delay-500 ${
               isLoaded ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             }`}
           >
-            <MapPin className="w-4 h-4 text-muted-foreground" />
-            Surabaya, Jawa Timur, Indonesia
+            <MapPin className="w-3.5 h-3.5 sm:w-4 sm:h-4 flex-shrink-0" />
+            <span>Surabaya, Jawa Timur, Indonesia</span>
           </p>
 
           <div
@@ -205,17 +183,16 @@ const HeroSection = () => {
           >
             <a
               href="mailto:wahyuramadhan9090@gmail.com"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 rounded-full bg-primary text-primary-foreground font-medium hover:opacity-90 hover:scale-105 hover:shadow-lg transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.98]"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 sm:px-7 md:px-8 py-2.5 sm:py-3 md:py-3.5 rounded-full bg-primary text-primary-foreground font-medium hover:opacity-90 hover:scale-105 hover:shadow-xl hover:shadow-primary/30 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.98] text-sm sm:text-base"
             >
               <Mail className="w-4 h-4" />
               Hubungi Saya
             </a>
 
-            {/* ✅ Download CV */}
             <button
               type="button"
               onClick={handleDownloadCV}
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 rounded-full bg-accent text-accent-foreground font-medium hover:opacity-90 hover:scale-105 hover:shadow-lg transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.98]"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 sm:px-7 md:px-8 py-2.5 sm:py-3 md:py-3.5 rounded-full bg-accent text-accent-foreground font-medium hover:opacity-90 hover:scale-105 hover:shadow-xl hover:shadow-accent/30 transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.98] text-sm sm:text-base"
             >
               <Download className="w-4 h-4" />
               Download CV
@@ -225,7 +202,7 @@ const HeroSection = () => {
               href="https://www.linkedin.com/in/mochammad-wahyu-ramadhan"
               target="_blank"
               rel="noopener noreferrer"
-              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-3.5 rounded-full border-2 border-border bg-card hover:border-primary/50 hover:scale-105 hover:shadow-lg transition-all duration-300 font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.98]"
+              className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-5 sm:px-7 md:px-8 py-2.5 sm:py-3 md:py-3.5 rounded-full border-2 border-border bg-card hover:border-primary/50 hover:scale-105 hover:shadow-lg transition-all duration-300 font-medium focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background active:scale-[0.98] text-sm sm:text-base"
             >
               <Linkedin className="w-4 h-4" />
               LinkedIn
@@ -236,15 +213,15 @@ const HeroSection = () => {
 
       <button
         onClick={scrollToAbout}
-        className={`absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-muted-foreground hover:text-primary transition-colors duration-300 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-full p-2 ${
+        className={`absolute bottom-6 sm:bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-1.5 sm:gap-2 text-muted-foreground hover:text-primary transition-colors duration-300 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background rounded-full p-2 ${
           isLoaded ? "opacity-100" : "opacity-0"
         }`}
         aria-label="Scroll ke bawah"
       >
-        <span className="text-xs font-medium tracking-wider uppercase">
+        <span className="text-[10px] sm:text-xs font-medium tracking-wider uppercase">
           Scroll
         </span>
-        <ChevronDown className="w-5 h-5 scroll-indicator" />
+        <ChevronDown className="w-4 h-4 sm:w-5 sm:h-5 scroll-indicator" />
       </button>
     </section>
   );
